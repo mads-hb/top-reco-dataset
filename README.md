@@ -12,7 +12,7 @@ Required libraries are Pepper, Tensorflow (GPU installation recommended), and Sc
 4. Run `model_tt.py`, which trains a network to reconstruct the top quarks. It uses the network from the previous step.
 5. The files `plot_validation_bcls.py` and `plot_validation.py` execute the networks on data and create plots to judge their performance.
 
-
 ## References
-<a id="1">[1]</a> Rübenach, J. (2023) Search for heavy Higgs bosons in conjunction with neural-network-driven reconstruction and upgrade of the Fast Beam Condition Monitor at the CMS experiment. [CERN-THESIS-2023-066](https://cds.cern.ch/record/2861145)
+
+<a id="1">[1]</a> Rübenach, J. (2023) Search for heavy Higgs bosons in conjunction with neural-network-driven reconstruction and upgrade of the Fast Beam Condition Monitor at the CMS experiment. [CERN-THESIS-2023-066](https://cds.cern.ch/record/2861145)  
 <a id="2">[2]</a> Pepper contributors. Pepper - ParticlE Physics ProcEssoR. 2023. URL: https://gitlab.cern.ch/pepper/
