@@ -1,0 +1,12 @@
+[project]
+name = "top-reco-dataset"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pepper",
+]
+
+[tool.uv.sources]
+pepper = { git = "ssh://git@gitlab.cern.ch:7999/pepper/pepper.git" }
