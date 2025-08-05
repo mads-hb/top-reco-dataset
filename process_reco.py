@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import os
+import sys
 
 import awkward as ak
 import numba
@@ -12,22 +14,26 @@ import pepper
 class Processor(pepper.ProcessorTTbarLL):
     def __init__(self, config, outdir):
         config["columns_to_save"] = [
-            ["genlepton", ["pt", "eta", "phi", "mass"]],
-            ["gent", ["pt", "eta", "phi", "mass"]],
-            ["genb", ["pt", "eta", "phi", "mass"]],
-            ["genv", ["pt", "eta", "phi", "mass"]],
-            ["genw", ["pt", "eta", "phi", "mass"]],
-            ["recolepton", ["pt", "eta", "phi", "mass"]],
+            ["genlepton", ["pt", "eta", "phi", "mass", "pdgId"]],
+            ["gent", ["pt", "eta", "phi", "mass", "pdgId"]],
+            ["genb", ["pt", "eta", "phi", "mass", "pdgId"]],
+            ["genv", ["pt", "eta", "phi", "mass", "pdgId"]],
+            ["genw", ["pt", "eta", "phi", "mass", "pdgId"]],
+            ["recolepton", ["pt", "eta", "phi", "mass", "pdgId"]],
             ["recot", ["pt", "eta", "phi", "mass"]],
             ["recob", ["pt", "eta", "phi", "mass"]],
             ["Jet", ["pt", "eta", "phi", "mass", "partonFlavour", "btagDeepFlavB"], {"leading": (1, 8)}],
             ["MET", ["pt", "phi"]],
+            ["chel"],
+            ["MT2ll"]
             # We do not need these for now
             # ["PuppiMET", ["pt", "phi"]],
             # ["GenMET", ["pt", "phi"]],
             # ["GenJet", ["pt", "eta", "phi", "mass", "partonFlavour"]],
             # ["Lepton", ["pt", "eta", "phi", "mass"]]
         ]
+        if config["reco_algorithm"] == "both":
+            config["columns_to_save"].append(["recot_sonn", ["pt", "eta", "phi", "mass"]])
         super().__init__(config, outdir)
 
     def process_selection(self, selector, dsname, is_mc, filler):
@@ -36,10 +42,15 @@ class Processor(pepper.ProcessorTTbarLL):
             selector.add_cut("Pileup reweighting", partial(
                 self.do_pileup_reweighting, dsname))
         if is_mc:
-            selector.add_cut(
-                "Cross section", partial(self.crosssection_scale, dsname))
+            if "dataset" in selector.cats:
+                selector.add_cut(
+                    "Cross section", partial(
+                        self.crosssection_scale, selector.cats["dataset"]))
+            else:
+                selector.add_cut(
+                    "Cross section", partial(self.crosssection_scale, dsname))
         selector.add_cut("Lumi", partial(self.good_lumimask, is_mc, dsname))
-        selector.set_multiple_columns(self.build_lhe_columns)
+        selector.set_multiple_columns(self.build_gen_columns)
 
         pos_triggers, neg_triggers = pepper.misc.get_trigger_paths_for(
             dsname, is_mc, self.config["dataset_trigger_map"],
@@ -74,7 +85,7 @@ class Processor(pepper.ProcessorTTbarLL):
             self.compute_jet_factors, is_mc, reapply_jec, variation.junc,
             variation.jer, selector.rng))
         selector.set_column("OrigJet", selector.data["Jet"])
-        selector.set_column("Jet", self.build_jet_column)
+        selector.set_column("Jet", partial(self.build_jet_column, is_mc))
         smear_met = "smear_met" in self.config and self.config["smear_met"]
         selector.set_column(
             "MET", partial(self.build_met_column, is_mc, variation.junc,
@@ -88,9 +99,20 @@ class Processor(pepper.ProcessorTTbarLL):
                             all_cuts=True)
         selector.set_column("recob", self.pick_bs_from_lepton_pair,
                             all_cuts=True)
-        selector.set_column("recot", partial(
-            self.ttbar_system, reco_alg.lower(), selector.rng),
-            all_cuts=True, no_callback=True)
+        if reco_alg.lower() == "both":
+            selector.set_column("recot", partial(
+                self.ttbar_system, "betchart", selector.rng),
+                all_cuts=True, no_callback=True)
+            selector.set_column("recot_sonn", partial(
+                self.ttbar_system, "sonnenschein", selector.rng),
+                all_cuts=True, no_callback=True)
+        else:
+            selector.set_column("recot", partial(
+                self.ttbar_system, reco_alg, selector.rng),
+                all_cuts=True, no_callback=True)
+        selector.set_column("reconu", self.build_nu_column_ttbar_system,
+                            all_cuts=True, lazy=True)
+        selector.set_column("chel", self.calculate_chel)
 
         selector.applying_cuts = False
         selector.add_cut("Req lep pT", self.lep_pt_requirement)
@@ -184,6 +206,12 @@ class Processor(pepper.ProcessorTTbarLL):
         cols["gent"] = cols["gent"][
             ak.argsort(cols["gent"]["pdgId"], ascending=False)]
 
+        cols["genS"] = part[(abspdg == 54)]
+
+        cols["genChi"] = part[(abspdg == 52)]
+        cols["genChi"] = cols["genChi"][
+            ak.argsort(cols["genChi"]["pdgId"], ascending=False)]
+
         return cols
 
     def has_gen_particles(self, data):
@@ -228,6 +256,32 @@ class Processor(pepper.ProcessorTTbarLL):
         return ak.concatenate([bs[bestbpair_mlb], bs_rev[bestbpair_mlb]],
                               axis=1)
 
+    def build_nu_column(self, data):
+        """Get four momenta for the neutrinos coming from top pair decay"""
+        lep = data["recolepton"][:, 0:1]
+        antilep = data["recolepton"][:, 1:2]
+        b = data["recob"][:, 0:1]
+        antib = data["recob"][:, 1:2]
+        top = data["recot"][:, 0:1]
+        antitop = data["recot"][:, 1:2]
+        nu = top - b - antilep
+        antinu = antitop - antib - lep
+        return ak.concatenate([nu, antinu], axis=1)
+
+    def calculate_chel(self, data):
+        """Calculate the angle between the leptons in their helicity frame"""
+        top = data["recot"]
+        lep = data["recolepton"]
+        ttbar_boost = -top.sum().boostvec
+        top = top.boost(ttbar_boost)
+        lep = lep.boost(ttbar_boost)
+
+        top_boost = -top.boostvec
+        lep_ZMFtbar = lep[:, 0].boost(top_boost[:, 1])
+        lbar_ZMFtop = lep[:, 1].boost(top_boost[:, 0])
+
+        chel = lep_ZMFtbar.dot(lbar_ZMFtop) / lep_ZMFtbar.rho / lbar_ZMFtop.rho
+        return chel
 
 if __name__ == "__main__":
     from pepper import runproc

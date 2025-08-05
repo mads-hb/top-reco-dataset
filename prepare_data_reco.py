@@ -10,6 +10,7 @@ from argparse import ArgumentParser
 from coffea.nanoevents.methods import vector
 from tqdm import tqdm
 import warnings
+from collections import defaultdict
 
 
 warnings.filterwarnings("error")
@@ -159,169 +160,167 @@ def compute_sdmc(sdmb):
     return c
 
 
+def make_table(ev, weight, include_DM=False):
+    sel = ((ak.num(ev["gent"]) == 2) & (ak.num(ev["genw"]) == 2)
+           & (ak.num(ev["genb"]) == 2) & (ak.num(ev["genlepton"]) == 2))
+    ev = ev[sel]
+    weight = weight[sel]
+    top = ak.with_name(ev["gent"][:, 0],
+                       "PtEtaPhiMLorentzVector")
+    atop = ak.with_name(ev["gent"][:, 1],
+                        "PtEtaPhiMLorentzVector")
+    ttbar = top + atop
+    lep = ak.with_name(ev["genlepton"][:, 0],
+                       "PtEtaPhiMLorentzVector")
+    alep = ak.with_name(ev["genlepton"][:, 1],
+                        "PtEtaPhiMLorentzVector")
+    bot = ak.with_name(ev["genb"][:, 0],
+                       "PtEtaPhiMLorentzVector")
+    abot = ak.with_name(ev["genb"][:, 1],
+                        "PtEtaPhiMLorentzVector")
+    wplus = ak.with_name(ev["genw"][:, 0],
+                         "PtEtaPhiMLorentzVector")
+    wminus = ak.with_name(ev["genw"][:, -1],
+                          "PtEtaPhiMLorentzVector")
+    recotop = ak.with_name(ev["recot"][:, 0:1],
+                           "PtEtaPhiMLorentzVector")
+    recotop["mass"] = 172.5
+    recoatop = ak.with_name(ev["recot"][:, 1:2],
+                            "PtEtaPhiMLorentzVector")
+    recoatop["mass"] = 172.5
+    recolep = ak.with_name(ev["recolepton"][:, 0],
+                           "PtEtaPhiMLorentzVector")
+    recoalep = ak.with_name(ev["recolepton"][:, 1],
+                            "PtEtaPhiMLorentzVector")
+    recobot = ak.with_name(ev["recob"][:, 0],
+                           "PtEtaPhiMLorentzVector")
+    recoabot = ak.with_name(ev["recob"][:, 1],
+                            "PtEtaPhiMLorentzVector")
+    recomet = ak.with_name(ev["MET"], "PtEtaPhiMLorentzVector")
+    recojet = ak.with_name(ev["Jet"], "PtEtaPhiMLorentzVector")
+    table = ak.Array({
+        "mtt": (top + atop).mass,
+        "weight": weight
+    })
+    add_particle(table, "top", top, "ptetaphim")
+    add_particle(table, "atop", atop, "ptetaphim")
+    add_particle(table, "ttbar", ttbar, "ptetaphim")
+    add_particle(table, "top", top, "cartesian")
+    add_particle(table, "atop", atop, "cartesian")
+    add_particle(table, "ttbar", ttbar, "cartesian")
+    add_particle(table, "wplus", wplus, "ptetaphim")
+    add_particle(table, "wminus", wminus, "ptetaphim")
+    add_particle(table, "wplus", wplus, "cartesian")
+    add_particle(table, "wminus", wminus, "cartesian")
+    add_particle(table, "lep", recolep, "cartesian")
+    add_particle(table, "alep", recoalep, "cartesian")
+    add_particle(table, "lep", recolep, "ptetaphim")
+    add_particle(table, "alep", recoalep, "ptetaphim")
+    add_particle(table, "genlep", lep, "cartesian")
+    add_particle(table, "genalep", alep, "cartesian")
+    add_particle(table, "genlep", lep, "ptetaphim")
+    add_particle(table, "genalep", alep, "ptetaphim")
+    add_particle(table, "bot", recobot, "cartesian")
+    add_particle(table, "abot", recoabot, "cartesian")
+    add_particle(table, "bot", recobot, "ptetaphim")
+    add_particle(table, "abot", recoabot, "ptetaphim")
+    add_particle(table, "genbot", bot, "cartesian")
+    add_particle(table, "genabot", abot, "cartesian")
+    add_particle(table, "genbot", bot, "ptetaphim")
+    add_particle(table, "genabot", abot, "ptetaphim")
+    add_particle(table, "met", recomet, "ptphi")
+    add_particle(table, "met", recomet, "cartesian_transverse")
+    add_particle(table, "sonnentop", sonn_top, "cartesian")
+    add_particle(table, "sonnenatop", sonn_atop, "cartesian")
+    add_particle(table, "jet", recojet, "cartesian")
+    add_particle(table, "jet", recojet, "ptetaphim")
+    table["mtt"] = (top + atop).mass
+    table["chel"] = compute_chel(top, atop, lep, alep)
+    top_tt, atop_tt, lep_hel, alep_hel = compute_helframe(top, atop, lep, alep)
+    add_particle(table, "toptt", top_tt, "cartesian")
+    add_particle(table, "toptt", top_tt, "ptetaphim")
+    add_particle(table, "genlephel", lep_hel, "cartesian")
+    add_particle(table, "genlephel", lep_hel, "ptetaphi")
+    add_particle(table, "genalephel", alep_hel, "cartesian")
+    add_particle(table, "genalephel", alep_hel, "ptetaphi")
+
+    if args.skim is not None:
+        table["weight"] = table["weight"] * args.skim
+        table = table[::args.skim]
+    return table
+
+
 parser = ArgumentParser()
+parser.add_argument("inputdir")
 parser.add_argument("outputdir")
-parser.add_argument("inputdir", nargs="+")
 parser.add_argument("-s", "--validationsplit", type=float, default=0.3)
 parser.add_argument("-k", "--skim", type=int)
 parser.add_argument("--cuts", action="store_true", help="Use only events that pass all cuts")
-parser.add_argument("-c", "--counts", action="append")
-parser.add_argument("-S", "--scale", action="append")
+parser.add_argument("-c", "--counts")
+parser.add_argument("-S", "--scale")
 args = parser.parse_args()
 
-if args.counts is not None and len(args.inputdir) != len(args.counts):
-    sys.exit("--counts must be present as often as inputdir is given or not present at all")
-if args.scale is not None and len(args.inputdir) != len(args.scale):
-    sys.exit("--scale must be present as often as inputdir is given or not present at all")
+#if args.counts is not None and len(args.inputdir) != len(args.counts):
+#    sys.exit("--counts must be present as often as inputdir is given or not present at all")
+#if args.scale is not None and len(args.inputdir) != len(args.scale):
+#(    sys.exit("--scale must be present as often as inputdir is given or not present at all")
 
-trainpath = os.path.join(args.outputdir, "traindata.hdf5")
-if os.path.exists(trainpath):
-    answer = input(f"{trainpath} already exists. Overwrite? [y/n] ")
-    if answer != "y":
-        sys.exit(1)
-validatepath = os.path.join(args.outputdir, "validatedata.hdf5")
-if os.path.exists(validatepath):
-    answer = input(f"{validatepath} already exists. Overwrite? [y/n] ")
-    if answer != "y":
-        sys.exit(1)
+if not os.path.exists(args.outputdir):
+    os.mkdir(args.outputdir)
 
-tables = []
-for i, dirname in enumerate(args.inputdir):
-    if args.counts is None:
-        events_needed = None
-    else:
-        events_needed = int(args.counts[i])
-    if args.scale is None:
-        scale = 1
-    else:
-        scale = args.scale[i]
-    with tqdm(total=events_needed) as pbar:
-        for fname in glob.glob(os.path.join(dirname, "*.h5")):
-            if events_needed is not None and events_needed <= 0:
-                break
-            with HDF5File(fname, "r") as a:
-                ev = a["events"][:events_needed]
-                if args.cuts:
-                    passes_cuts = np.all([np.asarray(a["cutflags"][field]) for field in a["cutflags"].fields], axis=0)
-                    passes_cuts = passes_cuts[:events_needed]
-                    ev = ev[passes_cuts]
-                top = ak.with_name(ev["gent_pt,eta,phi,mass"][:, 0],
-                                   "PtEtaPhiMLorentzVector")
-                atop = ak.with_name(ev["gent_pt,eta,phi,mass"][:, 1],
-                                    "PtEtaPhiMLorentzVector")
-                ttbar = top + atop
-                lep = ak.with_name(ev["genlepton_pt,eta,phi,mass"][:, 0],
-                                   "PtEtaPhiMLorentzVector")
-                alep = ak.with_name(ev["genlepton_pt,eta,phi,mass"][:, 1],
-                                    "PtEtaPhiMLorentzVector")
-                bot = ak.with_name(ev["genb_pt,eta,phi,mass"][:, 0],
-                                   "PtEtaPhiMLorentzVector")
-                abot = ak.with_name(ev["genb_pt,eta,phi,mass"][:, 1],
-                                    "PtEtaPhiMLorentzVector")
-                wplus = ak.with_name(ev["genw_pt,eta,phi,mass"][:, 0],
-                                     "PtEtaPhiMLorentzVector")
-                wminus = ak.with_name(ev["genw_pt,eta,phi,mass"][:, -1],
-                                      "PtEtaPhiMLorentzVector")
-                recotop = ak.with_name(ev["recot_pt,eta,phi,mass"][:, 0:1],
-                                       "PtEtaPhiMLorentzVector")
-                recotop["mass"] = 172.5
-                recoatop = ak.with_name(ev["recot_pt,eta,phi,mass"][:, 1:2],
-                                        "PtEtaPhiMLorentzVector")
-                recoatop["mass"] = 172.5
-                recolep = ak.with_name(ev["recolepton_pt,eta,phi,mass"][:, 0],
-                                       "PtEtaPhiMLorentzVector")
-                recoalep = ak.with_name(ev["recolepton_pt,eta,phi,mass"][:, 1],
-                                        "PtEtaPhiMLorentzVector")
-                recobot = ak.with_name(ev["recob_pt,eta,phi,mass"][:, 0],
-                                       "PtEtaPhiMLorentzVector")
-                recoabot = ak.with_name(ev["recob_pt,eta,phi,mass"][:, 1],
-                                        "PtEtaPhiMLorentzVector")
-                recomet = ak.with_name(ev["MET_pt,phi"], "PtEtaPhiMLorentzVector")
-                recojet = ak.with_name(ev["Jet_pt,eta,phi,mass,partonFlavour,btagDeepFlavB_leading1-8"], "PtEtaPhiMLorentzVector")
-                if "systematics" in a:
-                    weight = a["systematics"][:events_needed]["weight"]
-                else:
-                    weight = a["weight"][:events_needed]
-                if args.cuts:
-                    weight = weight[passes_cuts]
-                weight = weight * scale
-                table = ak.Array({
-                    "mtt": (top + atop).mass,
-                    "weight": weight,
-                    "source": np.full(len(weight), i)
-                })
-                add_particle(table, "top", top, "ptetaphim")
-                add_particle(table, "atop", atop, "ptetaphim")
-                add_particle(table, "ttbar", ttbar, "ptetaphim")
-                add_particle(table, "top", top, "cartesian")
-                add_particle(table, "atop", atop, "cartesian")
-                add_particle(table, "ttbar", ttbar, "cartesian")
-                add_particle(table, "wplus", wplus, "ptetaphim")
-                add_particle(table, "wminus", wminus, "ptetaphim")
-                add_particle(table, "wplus", wplus, "cartesian")
-                add_particle(table, "wminus", wminus, "cartesian")
-                add_particle(table, "lep", recolep, "cartesian")
-                add_particle(table, "alep", recoalep, "cartesian")
-                add_particle(table, "lep", recolep, "ptetaphim")
-                add_particle(table, "alep", recoalep, "ptetaphim")
-                add_particle(table, "genlep", lep, "cartesian")
-                add_particle(table, "genalep", alep, "cartesian")
-                add_particle(table, "genlep", lep, "ptetaphim")
-                add_particle(table, "genalep", alep, "ptetaphim")
-                add_particle(table, "bot", recobot, "cartesian")
-                add_particle(table, "abot", recoabot, "cartesian")
-                add_particle(table, "bot", recobot, "ptetaphim")
-                add_particle(table, "abot", recoabot, "ptetaphim")
-                add_particle(table, "genbot", bot, "cartesian")
-                add_particle(table, "genabot", abot, "cartesian")
-                add_particle(table, "genbot", bot, "ptetaphim")
-                add_particle(table, "genabot", abot, "ptetaphim")
-                add_particle(table, "met", recomet, "ptphi")
-                add_particle(table, "met", recomet, "cartesian_transverse")
-                add_particle(table, "sonnentop", recotop, "cartesian")
-                add_particle(table, "sonnenatop", recoatop, "cartesian")
-                add_particle(table, "jet", recojet, "cartesian")
-                add_particle(table, "jet", recojet, "ptetaphim")
-                table["mtt"] = (top + atop).mass
-                table["chel"] = compute_chel(top, atop, lep, alep)
-                top_tt, atop_tt, lep_hel, alep_hel = compute_helframe(top, atop, lep, alep)
-                add_particle(table, "toptt", top_tt, "cartesian")
-                add_particle(table, "toptt", top_tt, "ptetaphim")
-                add_particle(table, "genlephel", lep_hel, "cartesian")
-                add_particle(table, "genlephel", lep_hel, "ptetaphi")
-                add_particle(table, "genalephel", alep_hel, "cartesian")
-                add_particle(table, "genalephel", alep_hel, "ptetaphi")
-
-                if events_needed is not None:
-                    pbar.update(min(events_needed, len(table)))
-                    events_needed -= len(table)
-                    if events_needed < 0:
-                        table = table[:events_needed]
-                else:
-                    pbar.update(len(table))
-                if args.skim is not None and i == 0:
-                    table["weight"] = table["weight"] * args.skim
-                    table = table[::args.skim]
-                tables.append(table)
+dirname = args.inputdir
+if args.counts is None:
+    events_needed = None
+else:
+    events_needed = int(args.counts)
+if args.scale is None:
+    scale = 1
+else:
+    scale = args.scale
+tables = defaultdict(list)
+for fname in tqdm(glob.glob(os.path.join(dirname, "*.h5"))):
+    if events_needed is not None and events_needed <= 0:
+        break
+    with HDF5File(fname, "r") as a:
+        ev = a["events"][:events_needed]
+        if args.cuts:
+            passes_cuts = np.all([np.asarray(a["cutflags"][field]) for field in a["cutflags"].fields], axis=0)
+            passes_cuts = passes_cuts[:events_needed]
+            ev = ev[passes_cuts]
+        if "systematics" in a:
+            weight = a["systematics"][:events_needed]["weight"]
         else:
-            if args.counts is not None:
-                print(f"Missing {events_needed} events from {dirname}")
-                sys.exit(1)
+            weight = a["weight"][:events_needed]
+        if args.cuts:
+            weight = weight[passes_cuts]
+        weight = weight * scale
+        tables[dirname.split("/")[-1]].append(make_table(ev, weight))
+        nevt = len(tables[dirname.split("/")[-1]][-1])
+        if events_needed is not None:
+            events_needed -= nevt
+            if events_needed < 0:
+                break
 
-table = ak.with_name(ak.concatenate(tables), "Dataframe")
-del tables
+for dataset in list(tables.keys()):
+    tbls = tables.pop(dataset)
+    os.makedirs(os.path.join(args.outputdir, dataset), exist_ok=True)
+    trainpath = os.path.join(args.outputdir, dataset, "traindata.hdf5")
+    validatepath = os.path.join(args.outputdir, dataset, "validatedata.hdf5")
 
-shuffledidx = np.arange(len(table))
-np.random.shuffle(shuffledidx)
-table = table[shuffledidx]
-del shuffledidx
-splitidx = int(len(table) * (1 - args.validationsplit))
-traindata = table[:splitidx]
-validatedata = table[splitidx:]
+    table = ak.with_name(ak.concatenate(tbls), "Dataframe")
+    del tbls
+    
+    shuffledidx = np.arange(len(table))
+    np.random.shuffle(shuffledidx)
+    table = table[shuffledidx]
+    del shuffledidx
+    splitidx = int(len(table) * (1 - args.validationsplit))
+    traindata = table[:splitidx]
+    validatedata = table[splitidx:]
 
-normalization = get_normalization(traindata, exclude=["source", "weight", "jet_flav"])
-traindata = (traindata - normalization[0]) / normalization[1]
-validatedata = (validatedata - normalization[0]) / normalization[1]
+    normalization = get_normalization(traindata, exclude=["source", "weight", "jet_flav"])
+    traindata = (traindata - normalization[0]) / normalization[1]
+    validatedata = (validatedata - normalization[0]) / normalization[1]
 
-save_output(trainpath, traindata, *normalization, args.inputdir)
-save_output(validatepath, validatedata, *normalization, args.inputdir)
+    save_output(trainpath, traindata, *normalization, args.inputdir)
+    save_output(validatepath, validatedata, *normalization, args.inputdir)

@@ -24,7 +24,7 @@ def load_data(path, *args):
     flav = np.asarray(ak.fill_none(ak.pad_none(data["jet_flav"], ak.max(ak.num(data["jet_flav"]))), 0))
     label = ((flav == 5)[:, :, None] & (flav == -5)[:, None, :]).astype(float).reshape((-1, flav.shape[1] ** 2))
     weight = abs(np.asarray(data["weight"]))
-    data = [table_to_numpy(data[arg]) for arg in args]
+    data = [table_to_numpy(data, arg) for arg in args]
     return data, label, [weight]*len(label) if isinstance(label, list) else weight
 
 

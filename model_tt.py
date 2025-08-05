@@ -23,9 +23,9 @@ def load_data(path, inputs, targets):
     if isinstance(targets[0], list):
         data_y = []
         for target in targets:
-            data_y.append(table_to_numpy(data[target]))
+            data_y.append(table_to_numpy(data, target))
     else:
-        data_y = table_to_numpy(data[targets])
+        data_y = table_to_numpy(data, targets)
     return data_x, data_y, weight
 
 
