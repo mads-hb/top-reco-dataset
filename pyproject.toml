@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "pepper",
+    "xrootd>=5.8.4",
 ]
 
 [tool.uv.sources]
