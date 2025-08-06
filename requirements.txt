@@ -1,0 +1,603 @@
+absl-py @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/absl_py-1.4.0/src/absl_py/1.4.0
+accelerate @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/accelerate-0.29.2/src/accelerate/0.29.2
+aiohttp==3.8.4
+aiosignal==1.2.0
+aiostream @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/aiostream-0.4.5/src/aiostream/0.4.5
+alabaster==0.7.12
+alembic @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/alembic-1.13.3/src/alembic/1.13.3
+altair @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/altair-5.2.0/src/altair/5.2.0
+annotated-types==0.7.0
+antlr4-python3-runtime @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/antlr4_python3_runtime-4.13.1/src/antlr4_python3_runtime/4.13.1
+anyio @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/anyio-3.7.1/src/anyio/3.7.1
+appdirs==1.4.4
+archspec==0.1.4
+argon2-cffi==20.1.0
+asdf @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/asdf-3.5.0/src/asdf/3.5.0
+asdf_standard @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/asdf_standard-1.1.1/src/asdf_standard/1.1.1
+asdf_transform_schemas @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/asdf_transform_schemas-0.5.0/src/asdf_transform_schemas/0.5.0
+asn1crypto==0.24.0
+asteval @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/asteval-0.9.31/src/asteval/0.9.31
+astor==0.8.1
+astroid @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/astroid-3.3.8/src/astroid/3.3.8
+astropy==5.3.4
+astunparse==1.6.3
+async-timeout==4.0.2
+async_generator==1.10
+atomicwrites==1.3.0
+attrs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/attrs-23.1.0/src/attrs/23.1.0
+auth-get-sso-cookie==2.4.0
+Authlib==0.15.5
+autopep8 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/autopep8-2.3.1/src/autopep8/2.3.1
+awkward==1.10.5
+awkward0==0.15.5
+awkward_cpp @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/awkward_cpp-37/src/awkward_cpp/37
+awscrt @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/awscrt-0.23.0/src/awscrt/0.23.0
+Babel==2.9.1
+backcall @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/backcall-0.2.0/src/backcall/0.2.0
+backoff @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/backoff-2.2.1/src/backoff/2.2.1
+bcrypt==3.1.6
+beautifulsoup4==4.10.0
+beniget==0.4.0
+black @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/black-24.8.0/src/black/24.8.0
+bleach==3.3.1
+blosc==1.11.1
+blosc2 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/blosc2-2.5.1/src/blosc2/2.5.1
+bokeh==3.7.3
+boost-histogram==1.5.2
+boto3 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/boto3-1.35.48/src/boto3/1.35.48
+botocore @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/botocore-1.35.48/src/botocore/1.35.48
+build==0.8.0
+cabinetry @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cabinetry-0.5.2/src/cabinetry/0.5.2
+cachetools==6.1.0
+calmjs.parse==1.3.1
+capturer @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/capturer-3.0/src/capturer/3.0
+Cartopy==0.21.1
+certifi==2022.12.7
+cffi==1.14.6
+cfgv @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cfgv-3.3.1/src/cfgv/3.3.1
+chardet==3.0.4
+charset-normalizer==2.0.6
+click==8.2.1
+click-default-group @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/click_default_group-1.2.4/src/click_default_group/1.2.4
+click-didyoumean==0.3.0
+clikit==0.6.2
+cloudpickle==3.1.1
+cma @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cma-3.3.0/src/cma/3.3.0
+coffea==0.7.30
+colorama @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/colorama-0.4.6/src/colorama/0.4.6
+colorcet==2.0.2
+colored @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/colored-2.2.3/src/colored/2.2.3
+coloredlogs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/coloredlogs-15.0.1/src/coloredlogs/15.0.1
+colorlog @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/colorlog-6.7.0/src/colorlog/6.7.0
+commonmark==0.9.1
+configobj==5.0.6
+configparser @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/configparser-5.3.0/src/configparser/5.3.0
+confluent-kafka @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/confluent_kafka-2.6.1/src/confluent_kafka/2.6.1
+confuse @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/confuse-2.0.1/src/confuse/2.0.1
+cons @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cons-0.4.6/src/cons/0.4.6
+contourpy==1.3.3
+control==0.9.1
+contur==3.0.0
+correctionlib==2.7.0
+CouchDB==1.2
+coverage==7.4.1
+cppy @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cppy-1.2.1/src/cppy/1.2.1
+# Editable install with no version control (cpymad==1.15.0)
+-e /cvmfs/sft.cern.ch/lcg/views/LCG_107a/x86_64-el9-gcc14-opt/lib/python3.11/site-packages
+cramjam @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/cramjam-2.8.3/src/cramjam/2.8.3
+crashtest==0.3.1
+cryptography==3.4.7
+cx_Oracle==8.3.0
+cycler==0.12.1
+Cython==3.0.10
+dask==2025.7.0
+dask-awkward @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/dask_awkward-2024.9.0/src/dask_awkward/2024.9.0
+dask-histogram @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/dask_histogram-2024.9.1/src/dask_histogram/2024.9.1
+dask-jobqueue==0.9.0
+dask-kubernetes==2023.7.3
+dask_lxplus==0.3.2
+dataclasses-json @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/dataclasses_json-0.5.8/src/dataclasses_json/0.5.8
+debugpy==1.3.0
+decaylanguage @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/DecayLanguage-0.18.5/src/DecayLanguage/0.18.5
+decorator==5.0.9
+defusedxml @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/defusedxml-0.7.1/src/defusedxml/0.7.1
+Deprecated==1.2.13
+deprecation==2.1.0
+dill==0.3.8
+distlib @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/distlib-0.3.6/src/distlib/0.3.6
+distributed==2025.7.0
+distro @ https://lcgpackages.web.cern.ch/tarFiles/sources/distro-1.5.0.tar.gz#sha256=0e58756ae38fbd8fc3020d54badb8eae17c5b9dcbed388b17bb55b8a5928df92
+dm-tree==0.1.8
+docopt==0.6.2
+docutils==0.16
+dotmap==1.3.30
+elasticsearch==6.3.0
+entrypoints==0.3
+et_xmlfile==1.1.0
+etuples @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/etuples-0.3.9/src/etuples/0.3.9
+exceptiongroup @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/exceptiongroup-1.1.1/src/exceptiongroup/1.1.1
+execnet==1.9.0
+extension-helpers @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/extension_helpers-1.0.0/src/extension_helpers/1.0.0
+faiss @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/faiss-1.9.0/src/faiss-1.9.0-build/faiss/python
+fastjsonschema @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/fastjsonschema-2.17.1/src/fastjsonschema/2.17.1
+filelock @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/filelock-3.12.0/src/filelock/3.12.0
+flake8==7.1.1
+flake8-bugbear @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/flake8_bugbear-24.8.19/src/flake8_bugbear/24.8.19
+flake8-builtins @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/flake8_builtins-2.5.0/src/flake8_builtins/2.5.0
+flatbuffers==24.3.25
+fonttools==4.59.0
+fpdf2 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/fpdf2-2.7.9/src/fpdf2/2.7.9
+frozendict @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/frozendict-2.3.8/src/frozendict/2.3.8
+frozenlist @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/frozenlist-1.4.1/src/frozenlist/1.4.1
+fs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/fs-2.4.16/src/fs/2.4.16
+fsspec==2025.7.0
+fsspec_xrootd @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/fsspec_xrootd-0.3.0/src/fsspec_xrootd/0.3.0
+func_adl @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/func_adl-3.2.5/src/func_adl/3.2.5
+func_adl_servicex @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/func_adl_servicex-2.2/src/func_adl_servicex/2.2
+func_adl_xAOD @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/func_adl_xAOD-2.1/src/func_adl_xAOD/2.1
+funcsigs==1.0.2
+future==0.18.3
+gast==0.5.4
+GaudiTesting==1.0.0
+gcovr @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/gcovr-7.2/src/gcovr/7.2
+Genshi @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/genshi-0.7.7/src/genshi/0.7.7
+gfal2-util==1.8.1
+globus-sdk==3.9.0
+google-auth==2.17.3
+google-auth-oauthlib==1.0.0
+google-pasta==0.2.0
+googledrivedownloader==0.4
+gosam @ file:///build/jenkins/workspace/lcg_release_pipeline/build/generators/gosam-2.1.2/src/gosam/2.1.2
+graphviz==0.20.1
+greenlet @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/greenlet-2.0.2/src/greenlet/2.0.2
+grpcio==1.56.2
+gssapi @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/gssapi-1.8.3/src/gssapi/1.8.3
+h11 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/h11-0.14.0/src/h11/0.14.0
+h5py==3.14.0
+hdf5plugin==5.1.0
+HeapDict==1.0.0
+hepdata-converter==0.2.3
+hepdata_lib @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/hepdata_lib-0.16.0/src/hepdata_lib/0.16.0
+hepdata_validator==0.3.5
+hepstats @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/hepstats-0.8.1/src/hepstats/0.8.1
+hepunits @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/hepunits-2.3.5/src/hepunits/2.3.5
+hist==2.8.1
+histoprint==2.6.0
+hjson==3.1.0
+horovod @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/horovod-0.28.1/src/horovod/0.28.1
+html5lib @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/html5lib-1.1/src/html5lib/1.1
+httpcore @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/httpcore-0.17.3/src/httpcore/0.17.3
+httpstan==4.12.0
+httpx @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/httpx-0.24.1/src/httpx/0.24.1
+huggingface_hub @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/huggingface_hub-0.23.2/src/huggingface_hub/0.23.2
+humanfriendly @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/humanfriendly-10.0/src/humanfriendly/10.0
+humanize==0.0.0
+hyperopt @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/hyperopt-0.2.7/src/hyperopt/0.2.7
+hypothesis==5.3.0
+identify @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/identify-2.5.24/src/identify/2.5.24
+idna==3.2
+imageio==2.31.0
+imagesize==1.2.0
+iminuit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/iminuit-2.29.1/src/iminuit/2.29.1
+importlib_metadata==8.7.0
+importlib_resources @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/importlib_resources-6.1.1/src/importlib_resources/6.1.1
+iniconfig==0.0.0
+ipydatawidgets==4.0.1
+ipykernel==6.0.2
+ipympl==0.9.3
+ipyparallel==6.2.4
+ipython==7.25.0
+ipython_genutils @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ipython_genutils-0.2.0/src/ipython_genutils/0.2.0
+ipywidgets==7.6.3
+iso8601==1.0.2
+isodate==0.6.1
+isort==5.12.0
+itk==5.4.0
+itk-core==5.4.0
+itk-filtering==5.4.0
+itk-io==5.4.0
+itk-meshtopolydata==0.11.0
+itk-numerics==5.4.0
+itk-registration==5.4.0
+itk-segmentation==5.4.0
+itkwidgets==0.32.6
+jacobi @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jacobi-0.9.2/src/jacobi/0.9.2
+jax @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jax-0.5.0/src/jax/0.5.0
+jaxlib==0.5.0
+jedi @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jedi-0.19.1/src/jedi/0.19.1
+Jinja2==3.1.6
+jmespath @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jmespath-1.0.1/src/jmespath/1.0.1
+joblib==1.2.0
+json5==0.9.6
+jsonpatch==1.33
+jsonpointer==2.0
+jsonschema @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jsonschema-4.20.0/src/jsonschema/4.20.0
+jsonschema-specifications @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jsonschema_specifications-2023.7.1/src/jsonschema_specifications/2023.7.1
+jupyter==1.0.0
+jupyter_client==6.1.12
+jupyter_console==6.1.0
+jupyter_contrib_core==0.3.3
+jupyter_contrib_nbextensions==0.7.0
+jupyter_core==4.7.1
+jupyter_highlight_selected_word==0.2.0
+jupyter_latex_envs==1.4.4
+jupyter_nbextensions_configurator==0.4.1
+jupyter_packaging @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jupyter_packaging-0.12.3/src/jupyter_packaging/0.12.3
+jupyter_server==1.10.2
+jupyterlab==3.0.17
+jupyterlab_pygments==0.1.2
+jupyterlab_rise @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/jupyterlab_rise-0.3.0/src/jupyterlab_rise/0.3.0
+jupyterlab_server==2.6.1
+keras @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/keras-3.6.0/src/keras/3.6.0
+keras-tuner==1.4.6
+Keras_Applications==1.0.8
+Keras_Preprocessing==1.1.2
+kiwisolver==1.4.8
+kopf==1.37.2
+kr8s @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/kr8s-0.8.6/src/kr8s/0.8.6
+kt-legacy==1.0.5
+kubernetes==23.3.0
+kubernetes_asyncio==21.7.1
+langchain @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/langchain-0.2.14/src/langchain/0.2.14
+langchain-community @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/langchain_community-0.2.12/src/langchain_community/0.2.12
+langchain-core @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/langchain_core-0.2.35/src/langchain_core/0.2.35
+langchain-text-splitters @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/langchain_text_splitters-0.2.2/src/langchain_text_splitters/0.2.2
+langsmith @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/langsmith-0.1.104/src/langsmith/0.1.104
+lap @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/lap-0.5.12/src/lap/0.5.12
+lark==1.1.5
+lazy-object-proxy==1.9.0
+lazy_loader @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/lazy_loader-0.2/src/lazy_loader/0.2
+lhereader==1.0.11
+libclang==14.0.1
+lightning-utilities==0.8.0
+linkify-it-py @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/linkify_it_py-2.0.2/src/linkify_it_py/2.0.2
+llvmlite==0.44.0
+lmfit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/lmfit-1.2.2/src/lmfit/1.2.2
+locket==1.0.0
+logical-unification @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/logical_unification-0.4.6/src/logical_unification/0.4.6
+logilab-common==1.8.1
+looseversion @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/looseversion-1.3.0/src/looseversion/1.3.0
+lxml @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/lxml-5.2.2/src/lxml/5.2.2
+lz4==4.4.4
+M2Crypto==0.41.0
+make-it-sync @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/make_it_sync-1.0.0/src/make_it_sync/1.0.0
+Mako==1.3.5
+Markdown==3.1.1
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+marshmallow==3.16.0
+marshmallow-enum @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/marshmallow_enum-1.5.1/src/marshmallow_enum/1.5.1
+matplotlib==3.10.5
+matplotlib-inline==0.1.2
+mccabe==0.7.0
+mdit-py-plugins @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/mdit_py_plugins-0.4.0/src/mdit_py_plugins/0.4.0
+mdurl @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/mdurl-0.1.2/src/mdurl/0.1.2
+memray @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/memray-1.15.0/src/memray/1.15.0
+meson @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/meson-1.3.2/src/meson/1.3.2
+messaging==1.1
+metakernel==0.24.2
+mimesis @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/mimesis-14.0.0/src/mimesis/14.0.0
+miniKanren @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/minikanren-1.0.3/src/minikanren/1.0.3
+minio @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/minio-5.0.10/src/minio/5.0.10
+minrpc==0.0.11
+mistune @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/mistune-3.0.1/src/mistune/3.0.1
+ml-dtypes @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ml_dtypes-0.4.1/src/ml_dtypes/0.4.1
+mock==3.0.5
+more-itertools==7.0.0
+mpi4py @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/mpi4py-3.1.5/src/mpi4py/3.1.5
+mplhep==0.4.0
+mplhep_data==0.0.4
+mpmath==1.2.1
+msgpack==1.1.1
+multidict==6.0.2
+multipledispatch @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/multipledispatch-1.0.0/src/multipledispatch/1.0.0
+multiprocess @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/multiprocess-0.70.16/src/multiprocess/0.70.16
+mypy==1.14.1
+mypy_extensions==1.0.0
+mysql-connector-python==8.0.18
+namex @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/namex-0.0.8/src/namex/0.0.8
+nanobind @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nanobind-2.4.0/src/nanobind/2.4.0
+narwhals==2.0.1
+nbclassic==0.3.1
+nbclient==0.5.3
+nbconvert @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nbconvert-7.6.0/src/nbconvert/7.6.0
+nbformat @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nbformat-5.9.1/src/nbformat/5.9.1
+ndindex @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ndindex-1.8/src/ndindex/1.8
+nest_asyncio==1.5.1
+networkx @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/networkx-3.2.1/src/networkx/3.2.1
+nltk @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nltk-3.8.1/src/nltk/3.8.1
+nodeenv @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nodeenv-1.7.0/src/nodeenv/1.7.0
+nose-py3 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/nose-1.7.0/src/nose/1.7.0
+notebook==6.4.0
+numba==0.61.2
+numba-stats @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/numba_stats-1.7.0/src/numba_stats/1.7.0
+numcodecs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/numcodecs-0.11.0/src/numcodecs/0.11.0
+numdifftools @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/numdifftools-0.9.41/src/numdifftools/0.9.41
+numexpr==2.8.4
+numpy @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/numpy-1.26.4/src/numpy/1.26.4
+oauthlib==3.0.1
+octave_kernel==0.32.0
+odfpy==1.4.1
+onnx==1.16.0
+onnxruntime @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/onnxruntime-1.20.1/src/onnxruntime/1.20.1/build/Linux/Release/dist/onnxruntime-1.20.1-cp311-cp311-linux_x86_64.whl#sha256=b07696b70dbbb895cb6ae5891d33804cd8b6108d51153efb8b0237eceaf0c459
+openai @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/openai-0.27.8/src/openai/0.27.8
+opencv-python @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/opencv_python-4.10.0.84/src/opencv_python/4.10.0.84
+openpyxl==3.1.5
+openqasm3 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/openqasm3-0.5.0/src/openqasm3/0.5.0
+opensearch-py @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/opensearch_py-2.2.0/src/opensearch_py/2.2.0
+opt_einsum==3.2.0
+optree @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/optree-0.11.0/src/optree/0.11.0
+optuna @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/optuna-4.0.0/src/optuna/4.0.0
+oracledb @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/oracledb-2.5.1/src/oracledb/2.5.1
+ordered-set @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ordered_set-4.1.0/src/ordered_set/4.1.0
+orjson==3.9.15
+OWSLib==0.17.1
+packaging==25.0
+pandas==2.3.1
+pandocfilters==1.4.3
+panel==1.1.0
+param==1.13.0
+paramiko==2.9.2
+parse==1.19.0
+parsl==1.2.0
+parso @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/parso-0.8.4/src/parso/0.8.4
+partd @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/partd-1.4.2/src/partd/1.4.2
+particle @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/particle-0.25.2/src/particle/0.25.2
+pastel==0.2.1
+pathos==0.2.3
+pathspec @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pathspec-0.11.1/src/pathspec/0.11.1
+patsy==0.5.6
+pbr==6.0.0
+pep517==0.12.0
+-e git+ssh://git@gitlab.cern.ch:7999/pepper/pepper.git@d184da63f7280d1475767ea54dc03e713f0bc81c#egg=pepper&subdirectory=../../pepperlib
+pexpect==4.9.0
+pickleshare==0.7.5
+pillow==11.3.0
+pipdeptree @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pipdeptree-2.9.0/src/pipdeptree/2.9.0
+pipenv==2020.11.15
+platformdirs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/platformdirs-3.5.0/src/platformdirs/3.5.0
+plotext==5.2.7
+plotly==5.16.1
+pluggy==1.5.0
+plumbum @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/plumbum-1.7.2/src/plumbum/1.7.2
+ply==3.11
+polars==0.18.13
+pooch @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pooch-1.6.0/src/pooch/1.6.0
+pox==0.2.5
+ppft==1.6.4.9
+pre_commit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pre_commit-3.8.0/src/pre_commit/3.8.0
+prettytable==3.0.0
+prometheus_client==0.11.0
+prompt_toolkit==3.0.19
+protobuf==4.25.4
+psutil==7.0.0
+ptyprocess @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ptyprocess-0.7.0/src/ptyprocess/0.7.0
+py==1.11.0
+py-cpuinfo @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pycpuinfo-9.0.0/src/pycpuinfo/9.0.0
+py4j==0.10.9.7
+pyarrow==21.0.0
+pyasn1==0.4.5
+pyasn1-modules==0.2.5
+pybind11==2.11.1
+pycairo==1.18.1
+pycodestyle==2.12.1
+pycparser==2.20
+pyct==0.4.6
+pydantic==2.11.7
+pydantic_core==2.33.2
+pyDigitalWaveTools==1.1
+pydot==1.4.1
+pydot_ng==2.0.0
+pyeda @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyeda-0.29.0/src/pyeda/0.29.0
+pyerfa==2.0.0.3
+pyflakes==3.2.0
+Pygments==2.19.2
+pygraphviz==1.11
+PyHEADTAIL==1.16.1
+pyHepMC3==3.2.7
+pyHepMC3.rootIO==3.2.7
+pyHepMC3.search==3.2.7
+pyhf @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyhf-0.7.6/src/pyhf/0.7.6
+PyJWT==2.0.1
+pykube-ng @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pykube_ng-23.6.0/src/pykube_ng/23.6.0
+pylev==1.4.0
+pylhe @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pylhe-0.9.0/src/pylhe/0.9.0
+pylint @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pylint-3.3.3/src/pylint/3.3.3
+PyNaCl==1.3.0
+pyparser==1.0
+pyparsing==3.2.3
+pypdf @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pypdf-3.11.0/src/pypdf/3.11.0
+pypng @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pypng-0.20220715.0/src/pypng/0.20220715.0
+pyproj @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyproj-3.6.1/src/pyproj/3.6.1
+PyQt-builder @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyqt_builder-1.15.4/src/pyqt_builder/1.15.4
+PyQt5==5.15.10
+PyQt5_sip @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyqt5_sip-12.15.0/src/pyqt5_sip/12.15.0
+pyroscope-io==0.8.5
+pyrsistent==0.18.0
+pyserial==3.4
+pyshp==2.1.0
+pyshtools @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyshtools-4.12.2/src/pyshtools/4.12.2
+pysimdjson==5.0.2
+pyslha @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyslha-3.2.6/src/pyslha/3.2.6
+pyspark==3.5.4
+pystan==3.9.0
+pytensor @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pytensor-2.19.0/src/pytensor/2.19.0
+pytest @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pytest-8.3.2/src/pytest/8.3.2
+pytest-cov==4.1.0
+pytest-runner==5.1
+pytest-xdist @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pytest_xdist-3.3.1/src/pytest_xdist/3.3.1
+python-box @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/python_box-7.0.1/src/python_box/7.0.1
+python-dateutil==2.9.0.post0
+python-gitlab==1.8.0
+python-json-logger==2.0.2
+python-jsonpath @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/python_jsonpath-0.7.1/src/python_jsonpath/0.7.1
+python-prctl==1.7
+python-vxi11==0.9
+pythran @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pythran-0.13.1/src/pythran/0.13.1
+pytorch-lightning==2.2.4
+pytz==2025.2
+pyviz_comms==2.0.1
+PyWavelets==1.4.1
+PyYAML==6.0.2
+pyzmq==22.1.0
+qastle @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/qastle-0.16.0/src/qastle/0.16.0
+qibo @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/qibo-0.2.15/src/qibo/0.2.15
+qibojit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/qibojit-0.1.3/src/qibojit/0.1.3
+qrcode @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/qrcode-7.4.2/src/qrcode/7.4.2
+qtconsole==4.5.1
+QtPy==1.7.1
+qulacs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/qulacs-0.6.4.1/src/qulacs/0.6.4.1
+railroad-diagrams==1.1.1
+rdflib==6.1.1
+redis==4.3.3
+referencing @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/referencing-0.31.0/src/referencing/0.31.0
+regex @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/regex-2023.5.5/src/regex/2023.5.5
+requests==2.31.0
+requests-gssapi==1.2.3
+requests-oauthlib==1.2.0
+requests-unixsocket==0.2.0
+resample @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/resample-1.10.1/src/resample/1.10.1
+retry @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/retry-0.9.2/src/retry/0.9.2
+retrying==1.3.3
+rich==14.1.0
+rise==5.5.0
+rpds-py==0.18.0
+rq==1.10.1
+rsa==4.0
+ruamel.yaml==0.17.31
+ruamel.yaml.clib @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ruamel_yaml_clib-0.2.7/src/ruamel_yaml_clib/0.2.7
+ruff @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ruff-0.9.3/src/ruff/0.9.3
+s3transfer @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/s3transfer-0.10.3/src/s3transfer/0.10.3
+safetensors @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/safetensors-0.4.3/src/safetensors/0.4.3
+scandir==1.10.0
+scikit-build==0.13.1
+scikit-hep @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/scikit_hep-2024.9.1/src/scikit_hep/2024.9.1
+scikit-image @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/scikitimage-0.21.0/src/scikitimage/0.21.0
+scikit-learn==1.5.1
+scikit-rf @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/scikit_rf-1.1.0/src/scikit_rf/1.1.0
+scipy==1.15.3
+seaborn @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/seaborn-0.13.2/src/seaborn/0.13.2
+semantic_version @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/semantic_version-2.10.0/src/semantic_version/2.10.0
+Send2Trash==1.7.1
+sentence-transformers @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/sentence_transformers-2.2.2/src/sentence_transformers/2.2.2
+sentencepiece @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/sentencepiece-0.1.99/src/sentencepiece/0.1.99
+servicex @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/servicex-2.8.0/src/servicex/2.8.0
+setuptools_scm==6.4.2
+shapely==2.0.5
+simplegeneric==0.8.1
+simplejson==3.16.1
+singledispatch==3.4.0.3
+sip @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/sip-6.8.3/src/sip/6.8.3
+six==1.17.0
+sniffio==1.2.0
+snowballstemmer==2.1.0
+sortedcontainers==2.4.0
+soupsieve @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/soupsieve-2.4.1/src/soupsieve/2.4.1
+Sphinx==4.2.0
+sphinx_rtd_theme==0.5.1
+sphinxcontrib-applehelp==1.0.2
+sphinxcontrib-devhelp==1.0.2
+sphinxcontrib-htmlhelp==2.0.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==1.0.3
+sphinxcontrib-serializinghtml==1.1.5
+SQLAlchemy @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/sqlalchemy-2.0.16/src/sqlalchemy/2.0.16
+statsmodels @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/statsmodels-0.14.1/src/statsmodels/0.14.1
+stevedore==3.3.0
+stomp.py==6.1.0
+storm==0.23
+svg.path==6.3
+svgpathtools==1.6.1
+svgwrite==1.4.3
+sympy==1.13.1
+synr==0.5.0
+tables==3.9.2
+tabulate @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tabulate-0.9.0/src/tabulate/0.9.0
+tblib==3.1.0
+tcut_to_qastle @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tcut_to_qastle-0.7/src/tcut_to_qastle/0.7
+tenacity==8.2.2
+tensorboard==2.18.0
+tensorboard-data-server==0.7.2
+tensorboard-plugin-wit==1.8.1
+tensorboardX @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tensorboardX-2.6.2.2/src/tensorboardX/2.6.2.2
+tensorflow-io-gcs-filesystem==0.36.0
+tensorflow-model-optimization==0.8.0
+tensorflow-probability==0.25.0
+tensorflow_cpu==2.18.0
+termcolor==1.1.0
+terminado==0.10.1
+testpath==0.5.0
+tex2pix @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tex2pix-0.3.1/src/tex2pix/0.3.1
+texttable @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/texttable-1.7.0/src/texttable/1.7.0
+textual @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/textual-0.74.0/src/textual/0.74.0
+tf2onnx @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tf2onnx-1.16.1/src/tf2onnx/1.16.1
+tf_keras @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tf_keras-2.18.0/src/tf_keras/2.18.0
+tfs-pandas @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tfs_pandas-3.5.1/src/tfs_pandas/3.5.1
+threadpoolctl @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/threadpoolctl-3.5.0/src/threadpoolctl/3.5.0
+tifffile @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tifffile-2023.4.12/src/tifffile/2023.4.12
+tinycss2 @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tinycss2-1.2.1/src/tinycss2/1.2.1
+tokenizers @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tokenizers-0.19.1/src/tokenizers/0.19.1
+toml==0.10.2
+tomli @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tomli-2.0.1/src/tomli/2.0.1
+tomlkit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/tomlkit-0.11.8/src/tomlkit/0.11.8
+toolz==1.0.0
+torch @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/torch-2.5.1/src/torch/2.5.1
+torch-geometric @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/torch_geometric-2.6.1/src/torch_geometric/2.6.1
+torch_cluster==1.6.3
+torch_scatter==2.1.2
+torch_sparse==0.6.18
+torchmetrics==1.4.0.post0
+torchvision==0.20.1a0
+tornado==6.5.1
+tqdm==4.67.1
+traitlets @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/traitlets-5.9.0/src/traitlets/5.9.0
+traittypes @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/traittypes-0.2.1/src/traittypes/0.2.1
+transformers @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/transformers-4.41.0/src/transformers/4.41.0
+typeguard==2.13.3
+typing-inspection==0.4.1
+typing_extensions==4.14.1
+typing_inspect @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/typing_inspect-0.9.0/src/typing_inspect/0.9.0
+tzdata==2025.2
+tzlocal==2.0.0
+uc-micro-py @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/uc_micro_py-1.0.2/src/uc_micro_py/1.0.2
+uhi==0.5.0
+ultralytics @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ultralytics-8.3.58/src/ultralytics/8.3.58
+ultralytics-thop @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/ultralytics_thop-2.0.13/src/ultralytics_thop/2.0.13
+uncertainties==3.1.7
+uproot==4.3.7
+uproot3==3.14.4
+uproot3-methods==0.10.1
+uproot_browser @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/uproot_browser-0.6.7/src/uproot_browser/0.6.7
+urllib3==2.5.0
+vcversioner==2.16.0.0
+vector @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/vector-1.5.2/src/vector/1.5.2
+verboselogs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/verboselogs-1.7/src/verboselogs/1.7
+versioneer @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/versioneer-0.28/src/versioneer/0.28
+virtualenv @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/virtualenv-20.23.0/src/virtualenv/20.23.0
+virtualenv-clone==0.5.4
+virtualenvwrapper==4.8.4
+watchdog==2.1.7
+wcwidth==0.2.5
+webargs @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/webargs-8.4.0/src/webargs/8.4.0
+webcolors @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/webcolors-24.11.1/src/webcolors/24.11.1
+webencodings==0.5.1
+webio_jupyter_extension @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/webio_jupyter_extension-0.1.0/src/webio_jupyter_extension/0.1.0
+websocket-client==1.1.0
+Werkzeug==2.2.3
+widgetsnbextension==3.5.1
+wrapt==1.14.1
+xarray==2022.3.0
+xenv==1.0.0
+xgboost @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/xgboost-2.1.3/src/xgboost/2.1.3/python-package
+xlrd==2.0.1
+xrootd @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/xrootd-5.7.3/src/xrootd-5.7.3-build/bindings/python
+xxhash @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/pyxxhash-3.4.1/src/pyxxhash/3.4.1
+xyzservices==2025.4.0
+yacs==0.1.8
+yarl @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/yarl-1.9.4/src/yarl/1.9.4
+zfit @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/zfit-0.24.3/src/zfit/0.24.3
+zfit_interface @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/zfit_interface-0.0.3/src/zfit_interface/0.0.3
+zfit_physics @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/zfit_physics-0.7.0/src/zfit_physics/0.7.0
+zict @ file:///build/jenkins/workspace/lcg_release_pipeline/build/pyexternals/zict-3.0.0/src/zict/3.0.0
+zipp==3.23.0
+zstandard @ file:///build/jenkins/workspace/lcg_release_pipeline/build/externals/zstandard-0.22.0/src/zstandard/0.22.0
