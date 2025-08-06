@@ -41,7 +41,7 @@ class Processor(pepper.ProcessorTTbarLL):
         if is_mc and "pileup_reweighting" in self.config:
             selector.add_cut("Pileup reweighting", partial(
                 self.do_pileup_reweighting, dsname))
-        if is_mc:
+        if is_mc and self.config["mc_lumifactors"]:
             if "dataset" in selector.cats:
                 selector.add_cut(
                     "Cross section", partial(
@@ -112,6 +112,7 @@ class Processor(pepper.ProcessorTTbarLL):
                 all_cuts=True, no_callback=True)
         selector.set_column("reconu", self.build_nu_column_ttbar_system,
                             all_cuts=True, lazy=True)
+        selector.add_cut("Reco", self.has_ttbar_system)
         selector.set_column("chel", self.calculate_chel)
 
         selector.applying_cuts = False
@@ -141,6 +142,29 @@ class Processor(pepper.ProcessorTTbarLL):
 
         return cols
 
+    @staticmethod
+    @numba.njit
+    def get_mother_pdgids_lastcopy(motheridxs, pdgids, offsets):
+        # Find PDG ID of the ancestor particle with a different ID
+        motherpdgids = np.zeros_like(pdgids)
+        islastcopy = np.full_like(pdgids, True).astype(np.dtype("bool"))
+        for i in range(len(offsets) - 1):
+            offset = offsets[i]
+            num_parts = offsets[i + 1] - offset
+            for j in range(num_parts):
+                pdgid = pdgids[offset + j]
+                motheridx = motheridxs[offset + j]
+                motheridx_old = j
+                while 0 <= motheridx < motheridx_old:
+                    motherpdgid = pdgids[offset + motheridx]
+                    if motherpdgid != pdgid:
+                        motherpdgids[offset + j] = motherpdgid
+                        break
+                    islastcopy[offset + motheridx] = False
+                    motheridx_old = motheridx
+                    motheridx = motheridxs[offset + motheridx]
+        return motherpdgids, islastcopy
+    
     def build_gen_columns(self, data):
         part = data["GenPart"]
         abspdg = abs(part["pdgId"])
@@ -149,25 +173,33 @@ class Processor(pepper.ProcessorTTbarLL):
                 abspdg == 11, 0.0005, ak.where(
                     abspdg == 13, 0.102, ak.where(
                         abspdg == 15, 1.777, part.mass))))
+        motheridx = part["genPartIdxMother"]
+        pdgid = part["pdgId"]
+        offsets = np.r_[0, np.cumsum(np.asarray(ak.num(part)))]
+        motherpdgid, islastcopy = self.get_mother_pdgids_lastcopy(
+            np.asarray(ak.flatten(motheridx)),
+            np.asarray(ak.flatten(pdgid)),
+            offsets)
+        part["motherid"] = ak.unflatten(motherpdgid, ak.num(part))
         part = part[part.hasFlags("isFirstCopy")]
         abspdg = abs(part["pdgId"])
         sgn = np.sign(part["pdgId"])
 
         cols = {}
         cols["genlepton"] = part[
-            ((abspdg == 11) | (abspdg == 13) | (abspdg == 15)) & (part.distinctParent.pdgId == sgn * -24)]
+            ((abspdg == 11) | (abspdg == 13) | (abspdg == 15)) & (part.motherid == sgn * -24)]
         cols["genlepton"] = cols["genlepton"][
             ak.argsort(cols["genlepton"]["pdgId"], ascending=False)]
 
-        cols["genv"] = part[((abspdg == 12) | (abspdg == 14) | (abspdg == 16)) & (part.distinctParent.pdgId == sgn * 24)]
+        cols["genv"] = part[((abspdg == 12) | (abspdg == 14) | (abspdg == 16)) & (part.motherid == sgn * 24)]
         cols["genv"] = cols["genv"][
             ak.argsort(cols["genv"]["pdgId"], ascending=False)]
 
-        cols["genb"] = part[(abspdg == 5) & (part.distinctParent.pdgId == sgn * 6)]
+        cols["genb"] = part[(abspdg == 5) & (part.motherid == sgn * 6)]
         cols["genb"] = cols["genb"][
             ak.argsort(cols["genb"]["pdgId"], ascending=False)]
 
-        cols["genw"] = part[(abspdg == 24) & (part.distinctParent.pdgId == sgn * 6)]
+        cols["genw"] = part[(abspdg == 24) & (part.motherid == sgn * 6)]
         cols["genw"] = cols["genw"][
             ak.argsort(cols["genw"]["pdgId"], ascending=False)]
 

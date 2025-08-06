@@ -1,0 +1,651 @@
+{
+    "lep_pt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "Lepton $p_{\\mathrm{T}}$",
+                "n_or_arr": 40,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "Lepton",
+                "pt"
+            ]
+        }
+    },
+    "lep_eta": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "Lepton $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "Lepton",
+                "eta"
+            ]
+        }
+    },
+    "lep_deltaphi": {
+        "bins": [
+            {
+                "name": "deltaphi",
+                "label": "Leading leptons $|\\Delta \\varphi| / \\pi$",
+                "n_or_arr": 40,
+                "lo": 0,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "deltaphi": [
+                "lep_deltaphi"
+            ]
+        }
+    },
+    "lep_deltaeta": {
+        "bins": [
+            {
+                "name": "deltaeta",
+                "label": "Lepton $\\Delta \\eta$",
+                "n_or_arr": 200,
+                "lo": 0,
+                "hi": 5
+            }
+        ],
+        "fill": {
+            "deltaeta": [
+                "Lepton",
+                "eta",
+                {"function": "leaddiff"},
+                {"function": "abs"}
+            ]
+        }
+    },
+    "jet_pt_1": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "Jet $p_{\\mathrm{T}}$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "Jet",
+                "pt",
+                {"leading": 1}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "jet_pt_2": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "Jet $p_{\\mathrm{T}}$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "Jet",
+                "pt",
+                {"leading": 2}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "jet_pt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "Jet $p_{\\mathrm{T}}$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "Jet",
+                "pt"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "bjet_pt_1": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "b jet $p_{\\mathrm{T}}$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "BJet",
+                "pt",
+                {"leading": 1}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "bjet_pt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "b jet $p_{\\mathrm{T}}$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 200,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "BJet",
+                "pt"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "jet_eta_1": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "Jet $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "Jet",
+                "eta",
+                {"leading": 1}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "jet_eta_2": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "Jet $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "Jet",
+                "eta",
+                {"leading": 2}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "jet_eta": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "Jet $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "Jet",
+                "eta"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "bjet_eta_1": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "b jet $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "BJet",
+                "eta",
+                {"leading": 1}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "bjet_eta": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "b jet $\\eta$",
+                "n_or_arr": 24,
+                "lo": -2.4,
+                "hi": 2.4
+            }
+        ],
+        "fill": {
+            "eta": [
+                "BJet",
+                "eta"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "njet": {
+        "bins": [
+            {
+                "name": "njet",
+                "label": "Number of jets",
+                "n_or_arr": 9,
+                "lo": 0,
+                "hi": 9
+            }
+        ],
+        "fill": {
+            "njet": [
+                "Jet",
+                {"function": "num"}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "nbjet": {
+        "bins": [
+            {
+                "name": "nbjet",
+                "label": "Number of b-tagged jets",
+                "n_or_arr": 9,
+                "lo": 0,
+                "hi": 9
+            }
+        ],
+        "fill": {
+            "nbjet": [
+                "BJet",
+                {"function": "num"}
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "METpt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "MET $p_{\\mathrm{T}}$",
+                "n_or_arr": 100,
+                "lo": 0,
+                "hi": 400,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "MET",
+                "pt"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "METphi": {
+        "bins": [
+            {
+                "name": "phi",
+                "label": "MET $\\varphi$",
+                "n_or_arr": 40,
+                "lo": -3.14,
+                "hi": 3.14
+            }
+        ],
+        "fill": {
+            "phi": [
+                "MET",
+                "phi"
+            ]
+        },
+        "step_requirement": "cut:HasJets"
+    },
+    "mll": {
+        "bins": [
+            {
+                "name": "mll",
+                "label": "$m_{\\mathrm{ll}}$",
+                "n_or_arr": 200,
+                "lo": 0,
+                "hi": 800,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "mll": [
+                "mll"
+            ]
+        }
+    },
+    "mbbll": {
+        "bins": [
+            {
+                "name": "mbbll",
+                "label": "$m_{\\mathrm{b\\bar{b} \\ell \\ell}}$ (GeV)",
+                "n_or_arr": 200,
+                "lo": 0,
+                "hi": 1000
+            }
+        ],
+        "fill": {
+            "mbbll": [
+                "mbbll"
+            ]
+        }
+    },
+    "mbl_max": {
+        "bins": [
+            {
+                "name": "mbl",
+                "label": "$m_{\\mathrm{b \\ell}}$ (GeV)",
+                "n_or_arr": 100,
+                "lo": 0,
+                "hi": 250
+            }
+        ],
+        "fill": {
+            "mbl": [
+                "mbl",
+                {"leading": 1}
+            ]
+        }
+    },
+    "mbl_min": {
+        "bins": [
+            {
+                "name": "mbl",
+                "label": "$m_{\\mathrm{b \\ell}}$ (GeV)",
+                "n_or_arr": 100,
+                "lo": 0,
+                "hi": 250
+            }
+        ],
+        "fill": {
+            "mbl": [
+                "mbl",
+                {"leading": 2}
+            ]
+        }
+    },
+    "mbl_minimax_atlas": {
+        "bins": [
+            {
+                "name": "mbl",
+                "label": "$m_{\\mathrm{b \\ell}}^{\\mathrm{minimax}}$ (GeV)",
+                "n_or_arr": 100,
+                "lo": 0,
+                "hi": 250
+            }
+        ],
+        "fill": {
+            "mbl": [
+                "mbl_minimax_atlas"
+            ]
+        }
+    },
+    "mtt": {
+        "bins": [
+            {
+                "name": "mtt",
+                "label": "$m_{\\mathrm{t\\bar{t}}}$ (GeV)",
+                "n_or_arr": 118,
+                "lo": 320,
+                "hi": 1500
+            }
+        ],
+        "fill": {
+            "mtt": [
+                "recot",
+                "sum",
+                "mass"
+            ]
+        },
+        "step_requirement": "cut:Reco"
+    },
+    "top_pt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "Top $p_{\\mathrm{T}}$",
+                "n_or_arr": 200,
+                "lo": 0,
+                "hi": 800,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "recot",
+                "pt"
+            ]
+        }
+    },
+    "ttbar_pt": {
+        "bins": [
+            {
+                "name": "pt",
+                "label": "$p_{\\mathrm{T}}(t \\bar{t})$",
+                "n_or_arr": 100,
+                "lo": 0,
+                "hi": 400,
+                "unit": "GeV"
+            }
+        ],
+        "fill": {
+            "pt": [
+                "recot",
+                "sum",
+                "pt"
+            ]
+        }
+    },
+    "top_eta": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "Top $\\eta$",
+                "n_or_arr": 200,
+                "lo": -5,
+                "hi": 5
+            }
+        ],
+        "fill": {
+            "eta": [
+                "recot",
+                "eta"
+            ]
+        }
+    },
+    "ttbar_eta": {
+        "bins": [
+            {
+                "name": "eta",
+                "label": "ttbar $\\eta$",
+                "n_or_arr": 200,
+                "lo": -5,
+                "hi": 5
+            }
+        ],
+        "fill": {
+            "eta": [
+                "recot",
+                "sum",
+                "eta"
+            ]
+        }
+    },
+    "top_deltaeta": {
+        "bins": [
+            {
+                "name": "deltaeta",
+                "label": "Top $\\Delta \\eta$",
+                "n_or_arr": 200,
+                "lo": 0,
+                "hi": 5
+            }
+        ],
+        "fill": {
+            "deltaeta": [
+                "recot",
+                "eta",
+                {"function": "leaddiff"},
+                {"function": "abs"}
+            ]
+        }
+    },
+    "top_phi": {
+        "bins": [
+            {
+                "name": "phi",
+                "label": "Top $\\varphi$",
+                "n_or_arr": 50,
+                "lo": -3.14,
+                "hi": 3.14
+            }
+        ],
+        "fill": {
+            "phi": [
+                "recot",
+                "phi"
+            ]
+        }
+    },
+    "top_deltaphi": {
+        "bins": [
+            {
+                "name": "phi",
+                "label": "Top $\\Delta \\varphi$",
+                "n_or_arr": 50,
+                "lo": 0,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "phi": [
+                "top_deltaphi"
+            ]
+        }
+    },
+    "chel": {
+        "bins": [
+            {
+                "name": "chel",
+                "label": "$c_{\\mathrm{hel}}$",
+                "n_or_arr": 20,
+                "lo": -1,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "chel": [
+                "chel"
+            ]
+        },
+        "step_requirement": "cut:Reco"
+    },
+    "chan": {
+        "bins": [
+            {
+                "name": "chan",
+                "label": "$c_{\\mathrm{han}}$",
+                "n_or_arr": 20,
+                "lo": -1,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "chan": [
+                "chan"
+            ]
+        },
+        "step_requirement": "cut:Reco"
+    },
+    "costhetastar": {
+        "bins": [
+            {
+                "name": "costhetastar",
+                "label": "$cos \\, \\theta*$",
+                "n_or_arr": 20,
+                "lo": -1,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "costhetastar": [
+                "costhetastar"
+            ]
+        }
+    },
+    "mttchelchan": {
+        "bins": [
+            {
+                "name": "mtt",
+                "label": "$m_{\\mathrm{t\\bar{t}}}$ (GeV)",
+                "n_or_arr": [
+                    320, 360, 400, 440, 480, 520, 560, 600, 640, 680, 720, 760, 800, 845,
+                    890, 935, 985, 1050, 1140, 1300, 1700
+                ]
+            },
+            {
+                "name": "chel",
+                "label": "$c_{\\mathrm{hel}}$",
+                "n_or_arr": 3,
+                "lo": -1,
+                "hi": 1
+            },
+            {
+                "name": "chan",
+                "label": "$c_{\\mathrm{chan}}$",
+                "n_or_arr": 3,
+                "lo": -1,
+                "hi": 1
+            }
+        ],
+        "fill": {
+            "mtt": [
+                "recot",
+                "sum",
+                "mass"
+            ],
+            "chel": [
+                "chel"
+            ],
+            "chan": [
+                "chan"
+            ]
+        }
+    }
+}
