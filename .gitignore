@@ -2,6 +2,7 @@
 pepper_logs/
 *.coffea
 output/
+events/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
