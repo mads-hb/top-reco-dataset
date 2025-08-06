@@ -1,0 +1,4 @@
+{
+    "import": "/afs/desy.de/user/b/baattrup/Documents/Run3Stab/config/2022post/config_base.hjson",
+    "mc_lumifactors": "/data/dust/user/baattrup/naf_projects/top-reco-dataset/config/lumifactors2022post.json",    
+}
