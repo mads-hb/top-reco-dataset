@@ -3,6 +3,7 @@
 import os
 import sys
 import glob
+from pathlib import Path
 import numpy as np
 import awkward as ak
 from pepper import HDF5File
@@ -16,6 +17,7 @@ from collections import defaultdict
 warnings.filterwarnings("error")
 ak.behavior.update(vector.behavior)
 
+RANDOM_SEED = 42
 
 @ak.mixin_class(ak.behavior)
 class Dataframe:
@@ -45,25 +47,12 @@ class Dataframe:
         return self._runak(ak.std, *args, **kwargs)
 
 
-def get_normalization(table, exclude=None):
-    offset = table.mean()
-    scale = table.std()
-    for column in ak.fields(offset):
-        if exclude is not None and column in exclude:
-            offset[column] = [0.0]
-            scale[column] = [1.0]
-        if scale[column][0] == 0:  # Avoid NaN after divison
-            scale[column] = [1.0]
-    return offset, scale
 
-
-def save_output(path, data, offset, scale, inputdirs):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with HDF5File(path, "w") as f:
+def save_output(path, data, inputdirs):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with HDF5File(str(path), "w") as f:
         f["data"] = data
-        f["offset"] = offset
-        f["scale"] = scale
-        f["inputdirs"] = inputdirs
+        f["inputdirs"] = str(inputdirs.resolve())
 
 
 def add_particle(table, prefix, vector, system):
@@ -182,6 +171,11 @@ def make_table(ev, weight, include_DM=False):
                          "PtEtaPhiMLorentzVector")
     wminus = ak.with_name(ev["genw"][:, -1],
                           "PtEtaPhiMLorentzVector")
+    # save neutrinos as well
+    neutrino = ak.with_name(ev["genv"][:, 0],
+                       "PtEtaPhiMLorentzVector")
+    aneutrino = ak.with_name(ev["genv"][:, 1],
+                        "PtEtaPhiMLorentzVector")
     recotop = ak.with_name(ev["recot"][:, 0:1],
                            "PtEtaPhiMLorentzVector")
     recotop["mass"] = 172.5
@@ -197,7 +191,9 @@ def make_table(ev, weight, include_DM=False):
     recoabot = ak.with_name(ev["recob"][:, 1],
                             "PtEtaPhiMLorentzVector")
     recomet = ak.with_name(ev["MET"], "PtEtaPhiMLorentzVector")
+    recopuppimet = ak.with_name(ev["puppimet"], "PtEtaPhiMLorentzVector")
     recojet = ak.with_name(ev["Jet"], "PtEtaPhiMLorentzVector")
+    
     table = ak.Array({
         "mtt": (top + atop).mass,
         "weight": weight
@@ -228,14 +224,21 @@ def make_table(ev, weight, include_DM=False):
     add_particle(table, "genabot", abot, "cartesian")
     add_particle(table, "genbot", bot, "ptetaphim")
     add_particle(table, "genabot", abot, "ptetaphim")
+    add_particle(table, "genv", neutrino, "cartesian")
+    add_particle(table, "genav", aneutrino, "cartesian")
+    add_particle(table, "genv", neutrino, "ptetaphim")
+    add_particle(table, "genav", aneutrino, "ptetaphim")
     add_particle(table, "met", recomet, "ptphi")
     add_particle(table, "met", recomet, "cartesian_transverse")
-    add_particle(table, "sonnentop", sonn_top, "cartesian")
-    add_particle(table, "sonnenatop", sonn_atop, "cartesian")
+    add_particle(table, "puppimet", recopuppimet, "ptphi")
+    add_particle(table, "puppimet", recopuppimet, "cartesian_transverse")
+    add_particle(table, "sonnentop", recotop, "cartesian")
+    add_particle(table, "sonnenatop", recoatop, "cartesian")
     add_particle(table, "jet", recojet, "cartesian")
     add_particle(table, "jet", recojet, "ptetaphim")
     table["mtt"] = (top + atop).mass
     table["chel"] = compute_chel(top, atop, lep, alep)
+    table["btag_scores"] = ak.fill_none(ak.pad_none(ev["Jet"]["btagDeepFlavB"][:, :7], 7, axis=1), 0)
     top_tt, atop_tt, lep_hel, alep_hel = compute_helframe(top, atop, lep, alep)
     add_particle(table, "toptt", top_tt, "cartesian")
     add_particle(table, "toptt", top_tt, "ptetaphim")
@@ -251,13 +254,14 @@ def make_table(ev, weight, include_DM=False):
 
 
 parser = ArgumentParser()
-parser.add_argument("inputdir")
-parser.add_argument("outputdir")
-parser.add_argument("-s", "--validationsplit", type=float, default=0.3)
-parser.add_argument("-k", "--skim", type=int)
+parser.add_argument("inputdir", type=Path, help="Directory containing input HDF5 files")
+parser.add_argument("outputdir", type=Path, help="Directory to save output HDF5 files")
+parser.add_argument("-s", "--validationsplit", type=float, default=0.3, help="Fraction of data to use for validation set")
+parser.add_argument("-t", "--testsplit", type=float, default=0.2, help="Fraction of data to use for test set (default: 0.2)")
+parser.add_argument("-k", "--skim", type=int, help="Skim every Nth event (optional)")
 parser.add_argument("--cuts", action="store_true", help="Use only events that pass all cuts")
-parser.add_argument("-c", "--counts")
-parser.add_argument("-S", "--scale")
+parser.add_argument("-c", "--counts", help="Number of events to process from each input file (optional)")
+parser.add_argument("-S", "--scale", help="Scale factor to apply to event weights")
 args = parser.parse_args()
 
 #if args.counts is not None and len(args.inputdir) != len(args.counts):
@@ -265,10 +269,11 @@ args = parser.parse_args()
 #if args.scale is not None and len(args.inputdir) != len(args.scale):
 #(    sys.exit("--scale must be present as often as inputdir is given or not present at all")
 
-if not os.path.exists(args.outputdir):
-    os.mkdir(args.outputdir)
+Path(args.outputdir).resolve().mkdir(parents=True, exist_ok=True)
 
-dirname = args.inputdir
+dirname = Path(args.inputdir).resolve()
+if not dirname.is_dir():
+    sys.exit(f"Input directory {dirname} does not exist or is not a directory")
 if args.counts is None:
     events_needed = None
 else:
@@ -278,10 +283,10 @@ if args.scale is None:
 else:
     scale = args.scale
 tables = defaultdict(list)
-for fname in tqdm(glob.glob(os.path.join(dirname, "*.h5"))):
+for fname in tqdm(list(dirname.glob("**/*.h5"))):
     if events_needed is not None and events_needed <= 0:
         break
-    with HDF5File(fname, "r") as a:
+    with HDF5File(str(fname), "r") as a:
         ev = a["events"][:events_needed]
         if args.cuts:
             passes_cuts = np.all([np.asarray(a["cutflags"][field]) for field in a["cutflags"].fields], axis=0)
@@ -294,8 +299,8 @@ for fname in tqdm(glob.glob(os.path.join(dirname, "*.h5"))):
         if args.cuts:
             weight = weight[passes_cuts]
         weight = weight * scale
-        tables[dirname.split("/")[-1]].append(make_table(ev, weight))
-        nevt = len(tables[dirname.split("/")[-1]][-1])
+        tables[fname.parent.stem].append(make_table(ev, weight))
+        nevt = len(tables[fname.parent.stem][-1])
         if events_needed is not None:
             events_needed -= nevt
             if events_needed < 0:
@@ -303,24 +308,27 @@ for fname in tqdm(glob.glob(os.path.join(dirname, "*.h5"))):
 
 for dataset in list(tables.keys()):
     tbls = tables.pop(dataset)
-    os.makedirs(os.path.join(args.outputdir, dataset), exist_ok=True)
-    trainpath = os.path.join(args.outputdir, dataset, "traindata.hdf5")
-    validatepath = os.path.join(args.outputdir, dataset, "validatedata.hdf5")
+    args.outputdir.resolve().joinpath(dataset).mkdir(exist_ok=True)
+    trainpath = args.outputdir.resolve().joinpath(dataset, "traindata.hdf5")
+    validatepath = args.outputdir.resolve().joinpath(dataset, "validatedata.hdf5")
+    testpath = args.outputdir.resolve().joinpath(dataset, "testdata.hdf5")
 
     table = ak.with_name(ak.concatenate(tbls), "Dataframe")
     del tbls
     
+    rng = np.random.default_rng(RANDOM_SEED)
     shuffledidx = np.arange(len(table))
-    np.random.shuffle(shuffledidx)
+    rng.shuffle(shuffledidx)
     table = table[shuffledidx]
-    del shuffledidx
-    splitidx = int(len(table) * (1 - args.validationsplit))
-    traindata = table[:splitidx]
-    validatedata = table[splitidx:]
 
-    normalization = get_normalization(traindata, exclude=["source", "weight", "jet_flav"])
-    traindata = (traindata - normalization[0]) / normalization[1]
-    validatedata = (validatedata - normalization[0]) / normalization[1]
+    valsplitidx = round(len(table) * (1 - args.validationsplit - args.testsplit))
+    testsplitidx = round(len(table) * (1 - args.testsplit))
+    traindata = table[:valsplitidx]
+    validatedata = table[valsplitidx:testsplitidx]
+    testdata = table[testsplitidx:]
+    print(f"Dataset {dataset}: {len(traindata)} training events, "
+          f"{len(validatedata)} validation events, {len(testdata)} test events")
 
-    save_output(trainpath, traindata, *normalization, args.inputdir)
-    save_output(validatepath, validatedata, *normalization, args.inputdir)
+    save_output(trainpath, traindata, args.inputdir)
+    save_output(validatepath, validatedata, args.inputdir)
+    save_output(testpath, testdata, args.inputdir)

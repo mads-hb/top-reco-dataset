@@ -25,9 +25,9 @@ class Processor(pepper.ProcessorTTbarLL):
             ["Jet", ["pt", "eta", "phi", "mass", "partonFlavour", "btagDeepFlavB"], {"leading": (1, 8)}],
             ["MET", ["pt", "phi"]],
             ["chel"],
-            ["MT2ll"]
+            ["MT2ll"],
+            ["PuppiMET", ["pt", "phi"]],
             # We do not need these for now
-            # ["PuppiMET", ["pt", "phi"]],
             # ["GenMET", ["pt", "phi"]],
             # ["GenJet", ["pt", "eta", "phi", "mass", "partonFlavour"]],
             # ["Lepton", ["pt", "eta", "phi", "mass"]]

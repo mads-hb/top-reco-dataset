@@ -14,7 +14,14 @@ python -m pip install -e pepperlib
 ```bash
 python process_reco.py config/config2022post.hjson -c 500 --dataset TTto2L2Nu_TuneCP5_13p6TeV_powheg-pythia8 -o output --eventdir events/
 ```
-2. Run `prepare_data_reco.py`, which creates normalized values for a range of observables the network is working with and saved them into HDF5 files. 
+2. Run `prepare_data_reco.py`, which creates normalized values for a range of observables the network is working with and saved them into HDF5 files:
+```bash
+python prepare_data_reco.py events/ data/hdf5/ --cuts --validationsplit 0.25 --testsplit 0.25 --counts 1500000
+```
+3. Finally, run `extract_trainarrays.py` to extract the arrays used for training:
+```bash
+python extract_trainarrays.py data/hdf5/ data/npz/ --verbose
+```
 
 ## References
 
