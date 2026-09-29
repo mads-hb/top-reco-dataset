@@ -65,8 +65,7 @@ class Processor(pepper.ProcessorTTbarLL):
                          partial(self.no_additional_leptons, is_mc))
         selector.set_column("Electron", self.pick_electrons)
         selector.set_column("Muon", self.pick_muons)
-        selector.set_column("Lepton", partial(
-            self.build_lepton_column, is_mc, selector.rng))
+        selector.set_column("Lepton", self.build_lepton_column)
         # Wait with hists filling after channel masks are available
         selector.add_cut("At least 2 leps", partial(self.lepton_pair, is_mc),
                          no_callback=True)
