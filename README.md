@@ -3,11 +3,29 @@
 This repository provides files used to create the dataset used for the top quark reconstruction shown in [this](https://gitlab.cern.ch/mabaattr/top-reconstruction) repository.
 
 ## Installation
-This package requires the Pepper framework and is usually installed using an LCG environment. Is has been tested to work with CMS LCG_107a environment. To install, run:
-```bash
-source environment.sh
-python -m pip install -e pepperlib
+Clone with submodules:
+```sh
+git clone --recurse-submodules -j8 <repository url> top-reco-dataset
+cd top-reco-dataset
 ```
+
+Run pepper's install script. This creates `pepper/.venv/` with all dependencies 
+(including a correctionlib rebuilt against LCG to avoid ABI mismatches):
+```sh
+cd pepperlib && ./install.sh && cd ..
+```
+
+Now, `environment.sh` should point to the newly created venv with the correct LCG release and X509 proxy:
+```sh
+source environment.sh
+```
+
+You can test that pepper is working by running the example processor in the `pepper/examples` directory:
+```sh
+cd pepperlib/example
+python3 -m pepper.runproc example_processor.py example_config.json
+```
+This should run without errors and produce some a `cutflows.json` file in the `examples` directory.
 
 ## Usage
 1. Run the Processor (a Pepper [2] processor) using `process_reco.py`. The required Pepper configuration file can be any Pepper configuration file for pp -> ttbar analyses:

@@ -80,7 +80,8 @@ def add_particle(table, prefix, vector, system):
         table[f"{prefix}_flav"] = vector["partonFlavour"]
     if "btagDeepFlavB" in ak.fields(vector):
         table[f"{prefix}_btag"] = vector["btagDeepFlavB"]
-
+    if "pdgId" in ak.fields(vector):
+        table[f"{prefix}_pdgId"] = vector["pdgId"]
 
 def compute_helframe(top, atop, lep, alep):
     tt = top + atop
@@ -149,7 +150,7 @@ def compute_sdmc(sdmb):
     return c
 
 
-def make_table(ev, weight, include_DM=False):
+def make_table(ev, weight, args, include_DM=False):
     sel = ((ak.num(ev["gent"]) == 2) & (ak.num(ev["genw"]) == 2)
            & (ak.num(ev["genb"]) == 2) & (ak.num(ev["genlepton"]) == 2))
     ev = ev[sel]
@@ -237,6 +238,7 @@ def make_table(ev, weight, include_DM=False):
     add_particle(table, "jet", recojet, "cartesian")
     add_particle(table, "jet", recojet, "ptetaphim")
     table["mtt"] = (top + atop).mass
+    # Calculate the gen level chel
     table["chel"] = compute_chel(top, atop, lep, alep)
     table["btag_scores"] = ak.fill_none(ak.pad_none(ev["Jet"]["btagDeepFlavB"][:, :7], 7, axis=1), 0)
     top_tt, atop_tt, lep_hel, alep_hel = compute_helframe(top, atop, lep, alep)
@@ -247,88 +249,94 @@ def make_table(ev, weight, include_DM=False):
     add_particle(table, "genalephel", alep_hel, "cartesian")
     add_particle(table, "genalephel", alep_hel, "ptetaphi")
 
-    if args.skim is not None:
+    if "skim" in args and args.skim is not None:
         table["weight"] = table["weight"] * args.skim
         table = table[::args.skim]
     return table
 
+if __name__ == "__main__":
 
-parser = ArgumentParser()
-parser.add_argument("inputdir", type=Path, help="Directory containing input HDF5 files")
-parser.add_argument("outputdir", type=Path, help="Directory to save output HDF5 files")
-parser.add_argument("-s", "--validationsplit", type=float, default=0.3, help="Fraction of data to use for validation set")
-parser.add_argument("-t", "--testsplit", type=float, default=0.2, help="Fraction of data to use for test set (default: 0.2)")
-parser.add_argument("-k", "--skim", type=int, help="Skim every Nth event (optional)")
-parser.add_argument("--cuts", action="store_true", help="Use only events that pass all cuts")
-parser.add_argument("-c", "--counts", help="Number of events to process from each input file (optional)")
-parser.add_argument("-S", "--scale", help="Scale factor to apply to event weights")
-args = parser.parse_args()
+    parser = ArgumentParser()
+    parser.add_argument("inputdir", type=Path, help="Directory containing input HDF5 files")
+    parser.add_argument("outputdir", type=Path, help="Directory to save output HDF5 files")
+    parser.add_argument("-s", "--validationsplit", type=float, default=0.3, help="Fraction of data to use for validation set")
+    parser.add_argument("-t", "--testsplit", type=float, default=0.2, help="Fraction of data to use for test set (default: 0.2)")
+    parser.add_argument("-k", "--skim", type=int, help="Skim every Nth event (optional)")
+    parser.add_argument("--cuts", action="store_true", help="Use only events that pass all cuts")
+    parser.add_argument("-c", "--counts", help="Number of events to process from each input file (optional)")
+    parser.add_argument("-S", "--scale", help="Scale factor to apply to event weights")
+    parser.add_argument("--filesize", type=int, required=False, default=None, help="Approximate number of events per output file (default: all in one file)")
+    args = parser.parse_args()
 
-#if args.counts is not None and len(args.inputdir) != len(args.counts):
-#    sys.exit("--counts must be present as often as inputdir is given or not present at all")
-#if args.scale is not None and len(args.inputdir) != len(args.scale):
-#(    sys.exit("--scale must be present as often as inputdir is given or not present at all")
+    #if args.counts is not None and len(args.inputdir) != len(args.counts):
+    #    sys.exit("--counts must be present as often as inputdir is given or not present at all")
+    #if args.scale is not None and len(args.inputdir) != len(args.scale):
+    #(    sys.exit("--scale must be present as often as inputdir is given or not present at all")
+    _SUFFIX = "" # "_genmtt_leq_363p8"
 
-Path(args.outputdir).resolve().mkdir(parents=True, exist_ok=True)
+    Path(args.outputdir).resolve().mkdir(parents=True, exist_ok=True)
 
-dirname = Path(args.inputdir).resolve()
-if not dirname.is_dir():
-    sys.exit(f"Input directory {dirname} does not exist or is not a directory")
-if args.counts is None:
-    events_needed = None
-else:
-    events_needed = int(args.counts)
-if args.scale is None:
-    scale = 1
-else:
-    scale = args.scale
-tables = defaultdict(list)
-for fname in tqdm(list(dirname.glob("**/*.h5"))):
-    if events_needed is not None and events_needed <= 0:
-        break
-    with HDF5File(str(fname), "r") as a:
-        ev = a["events"][:events_needed]
-        if args.cuts:
-            passes_cuts = np.all([np.asarray(a["cutflags"][field]) for field in a["cutflags"].fields], axis=0)
-            passes_cuts = passes_cuts[:events_needed]
-            ev = ev[passes_cuts]
-        if "systematics" in a:
-            weight = a["systematics"][:events_needed]["weight"]
-        else:
-            weight = a["weight"][:events_needed]
-        if args.cuts:
-            weight = weight[passes_cuts]
-        weight = weight * scale
-        tables[fname.parent.stem].append(make_table(ev, weight))
-        nevt = len(tables[fname.parent.stem][-1])
-        if events_needed is not None:
-            events_needed -= nevt
-            if events_needed < 0:
-                break
+    dirname = Path(args.inputdir).resolve()
+    if not dirname.is_dir():
+        sys.exit(f"Input directory {dirname} does not exist or is not a directory")
+    if args.counts is None:
+        events_needed = None
+    else:
+        events_needed = int(args.counts)
+    if args.scale is None:
+        scale = 1
+    else:
+        scale = args.scale
+    tables = defaultdict(list)
+    for fname in tqdm(list(dirname.glob("**/*.h5"))):
+        if events_needed is not None and events_needed <= 0:
+            break
+        with HDF5File(str(fname), "r") as a:
+            ev = a["events"]
+            mask = ev['genmtt'] <= np.inf #363.8  #.9 quantile
+            ev = ev[mask]
+            ev = ev[:events_needed]
+            if args.cuts:
+                passes_cuts = np.all([np.asarray(a["cutflags"][mask][field]) for field in a["cutflags"][mask].fields], axis=0)
+                passes_cuts = passes_cuts[:events_needed]
+                ev = ev[passes_cuts]
+            if "systematics" in a:
+                weight = a["systematics"][mask][:events_needed]["weight"]
+            else:
+                weight = a["weight"][mask][:events_needed]
+            if args.cuts:
+                weight = weight[passes_cuts]
+            weight = weight * scale
+            tables[fname.parent.stem].append(make_table(ev, weight, args))
+            nevt = len(tables[fname.parent.stem][-1])
+            if events_needed is not None:
+                events_needed -= nevt
+                if events_needed < 0:
+                    break
+                
+    for dataset in list(tables.keys()):
+        tbls = tables.pop(dataset)
+        args.outputdir.resolve().joinpath(dataset).mkdir(exist_ok=True)
+        trainpath = args.outputdir.resolve().joinpath(dataset, f"traindata{_SUFFIX}.hdf5")
+        validatepath = args.outputdir.resolve().joinpath(dataset, f"validatedata{_SUFFIX}.hdf5")
+        testpath = args.outputdir.resolve().joinpath(dataset, f"testdata{_SUFFIX}.hdf5")
 
-for dataset in list(tables.keys()):
-    tbls = tables.pop(dataset)
-    args.outputdir.resolve().joinpath(dataset).mkdir(exist_ok=True)
-    trainpath = args.outputdir.resolve().joinpath(dataset, "traindata.hdf5")
-    validatepath = args.outputdir.resolve().joinpath(dataset, "validatedata.hdf5")
-    testpath = args.outputdir.resolve().joinpath(dataset, "testdata.hdf5")
+        table = ak.with_name(ak.concatenate(tbls), "Dataframe")
+        del tbls
+        
+        rng = np.random.default_rng(RANDOM_SEED)
+        shuffledidx = np.arange(len(table))
+        rng.shuffle(shuffledidx)
+        table = table[shuffledidx]
 
-    table = ak.with_name(ak.concatenate(tbls), "Dataframe")
-    del tbls
-    
-    rng = np.random.default_rng(RANDOM_SEED)
-    shuffledidx = np.arange(len(table))
-    rng.shuffle(shuffledidx)
-    table = table[shuffledidx]
+        valsplitidx = round(len(table) * (1 - args.validationsplit - args.testsplit))
+        testsplitidx = round(len(table) * (1 - args.testsplit))
+        traindata = table[:valsplitidx]
+        validatedata = table[valsplitidx:testsplitidx]
+        testdata = table[testsplitidx:]
+        print(f"Dataset {dataset}: {len(traindata)} training events, "
+            f"{len(validatedata)} validation events, {len(testdata)} test events")
 
-    valsplitidx = round(len(table) * (1 - args.validationsplit - args.testsplit))
-    testsplitidx = round(len(table) * (1 - args.testsplit))
-    traindata = table[:valsplitidx]
-    validatedata = table[valsplitidx:testsplitidx]
-    testdata = table[testsplitidx:]
-    print(f"Dataset {dataset}: {len(traindata)} training events, "
-          f"{len(validatedata)} validation events, {len(testdata)} test events")
-
-    save_output(trainpath, traindata, args.inputdir)
-    save_output(validatepath, validatedata, args.inputdir)
-    save_output(testpath, testdata, args.inputdir)
+        save_output(trainpath, traindata, args.inputdir)
+        save_output(validatepath, validatedata, args.inputdir)
+        save_output(testpath, testdata, args.inputdir)

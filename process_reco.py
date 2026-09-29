@@ -25,6 +25,9 @@ class Processor(pepper.ProcessorTTbarLL):
             ["Jet", ["pt", "eta", "phi", "mass", "partonFlavour", "btagDeepFlavB"], {"leading": (1, 8)}],
             ["MET", ["pt", "phi"]],
             ["chel"],
+            ['gen_chel'],
+            ["recomtt"],
+            ["genmtt"],
             ["MT2ll"],
             ["PuppiMET", ["pt", "phi"]],
             # We do not need these for now
@@ -112,10 +115,8 @@ class Processor(pepper.ProcessorTTbarLL):
                 all_cuts=True, no_callback=True)
         selector.set_column("reconu", self.build_nu_column_ttbar_system,
                             all_cuts=True, lazy=True)
-        selector.add_cut("Reco", self.has_ttbar_system)
-        selector.set_column("chel", self.calculate_chel)
 
-        selector.applying_cuts = False
+
         selector.add_cut("Req lep pT", self.lep_pt_requirement)
         selector.add_cut("m_ll", self.good_mass_lepton_pair)
         selector.add_cut("Z window", self.z_window,
@@ -123,6 +124,14 @@ class Processor(pepper.ProcessorTTbarLL):
         selector.add_cut("Jet pt req", self.jet_pt_requirement)
         selector.add_cut("Req MET", self.met_requirement,
                          categories={"channel": ["is_ee", "is_mm"]})
+        
+        selector.applying_cuts = False
+        selector.add_cut("Reco", self.has_ttbar_system)
+        selector.set_column("chel", partial(self.calculate_chel, top_label="recot", lep_label="recolepton"), all_cuts=True)
+        selector.set_column("gen_chel", partial(self.calculate_chel, top_label="gent", lep_label="genlepton"), all_cuts=False)
+        selector.set_column("recomtt", partial(self.calculate_mtt, top_label="recot"), all_cuts=True)
+        selector.set_column("genmtt", partial(self.calculate_mtt, top_label="gent"), all_cuts=False)
+
 
     def build_lhe_columns(self, data, prefix="gen"):
         part = data["LHEPart"]
@@ -269,20 +278,34 @@ class Processor(pepper.ProcessorTTbarLL):
         antinu = antitop - antib - lep
         return ak.concatenate([nu, antinu], axis=1)
 
-    def calculate_chel(self, data):
+    def calculate_chel(self, data, top_label, lep_label):
         """Calculate the angle between the leptons in their helicity frame"""
-        top = data["recot"]
-        lep = data["recolepton"]
-        ttbar_boost = -top.sum().boostvec
+        tops = data[top_label]
+        leps = data[lep_label]
+        top = tops[:,0]
+        antitop = tops[:,1]
+        lep = leps[:,0]
+        antilep = leps[:,1]
+        ttbar_boost = -(top + antitop).boostvec
         top = top.boost(ttbar_boost)
+        antitop = antitop.boost(ttbar_boost)
         lep = lep.boost(ttbar_boost)
+        antilep = antilep.boost(ttbar_boost)
 
         top_boost = -top.boostvec
-        lep_ZMFtbar = lep[:, 0].boost(top_boost[:, 1])
-        lbar_ZMFtop = lep[:, 1].boost(top_boost[:, 0])
+        antitop_boost = -antitop.boostvec
+        lep_ZMFtbar = lep.boost(antitop_boost)
+        lbar_ZMFtop = antilep.boost(top_boost)
 
         chel = lep_ZMFtbar.dot(lbar_ZMFtop) / lep_ZMFtbar.rho / lbar_ZMFtop.rho
         return chel
+
+    def chel_cut(self, data):
+        return data["chel"] > 0.95
+
+    def calculate_mtt(self, data, top_label):
+        tops = data[top_label]
+        return (tops[:,0] + tops[:,1]).mass
 
 if __name__ == "__main__":
     from pepper import runproc

@@ -152,9 +152,13 @@ class DataExtractor:
             field = f"{prefix}_{suffix}"
             data = self.df[field]
             components.append(data[:, np.newaxis, np.newaxis])
-        
         return ak.concatenate(components, axis=2)
-    
+
+    def extract_pdgId(self, prefix: str) -> ak.Array:
+        """Extract and normalize PDG ID for a particle type."""
+        pdgId = self.df[f"{prefix}_pdgId"]
+        return pdgId[:, np.newaxis, np.newaxis]
+
     def extract_met(self, *, met_type: typing.Literal["MET", "PuppiMET"]) -> ak.Array:
         """Extract and normalize MET components."""
         key = "met" if met_type == "MET" else "puppimet"
@@ -169,32 +173,62 @@ class DataExtractor:
         """Extract and combine all data components."""
         # Extract individual components
         jets, btag = self.extract_jets()
+
         leptons = self.extract_particle_4vector('lep')
         antileptons = self.extract_particle_4vector('alep')
+        leptons_pdgId = self.extract_pdgId('lep')
+        antileptons_pdgId = self.extract_pdgId('alep')
+        
         bottoms = self.extract_particle_4vector('bot')
         antibottoms = self.extract_particle_4vector('abot')
-        met = self.extract_met(met_type="PuppiMET")
-        # met = self.extract_met(met_type="MET")
+        genbottoms = self.extract_particle_4vector('genbot')
+        genabottoms = self.extract_particle_4vector('genabot')
+
+        # met = self.extract_met(met_type="PuppiMET")
+        met = self.extract_met(met_type="MET")
 
         neutrino = self.extract_particle_4vector('genv')
         aneutrino = self.extract_particle_4vector('genav')
+        neutrino_pdgId = self.extract_pdgId('genv')
+        aneutrino_pdgId = self.extract_pdgId('genav')
+
         # Extract targets
         top = self.extract_particle_4vector('top')
         antitop = self.extract_particle_4vector('atop')
-        
+
         # Combine inputs and targets
         # fourvectors = ak.concatenate([jets, leptons, antileptons, bottoms, antibottoms, neutrino, aneutrino], axis=1)
         # fourvectors = ak.concatenate([jets, leptons, antileptons, bottoms, antibottoms], axis=1)
-        fourvectors = ak.concatenate([leptons, antileptons, bottoms, antibottoms, neutrino, aneutrino], axis=1)
+        fourvectors = ak.concatenate([jets, leptons, antileptons], axis=1)
+        # fourvectors = ak.concatenate([leptons, antileptons, bottoms, antibottoms, neutrino, aneutrino], axis=1)
         target = ak.concatenate([top, antitop], axis=1)
         
-        # Convert to numpy arrays
-        fourvectors = ak.to_numpy(fourvectors, allow_missing=True)
-        target = ak.to_numpy(target, allow_missing=True)
-        met = ak.to_numpy(met, allow_missing=True)
-        btag = ak.to_numpy(btag, allow_missing=True)
+        # Make neutrino array
+        gennu = ak.concatenate([neutrino, aneutrino], axis=1)
+        # make genbot array
+        genbot = ak.concatenate([genbottoms, genabottoms], axis=1)
 
-        scalars = {"met": met, "btagging_scores": btag}
+        # Convert to numpy arrays
+        fourvectors = ak.to_numpy(fourvectors, allow_missing=True).filled(0)
+        target = ak.to_numpy(target, allow_missing=False)
+        met = ak.to_numpy(met, allow_missing=False)
+        btag = ak.to_numpy(btag, allow_missing=False)
+        gennu = ak.to_numpy(gennu, allow_missing=False)
+        genbot = ak.to_numpy(genbot, allow_missing=False)
+        leptons_pdgId = ak.to_numpy(leptons_pdgId, allow_missing=False)
+        antileptons_pdgId = ak.to_numpy(antileptons_pdgId, allow_missing=False)
+        neutrino_pdgId = ak.to_numpy(neutrino_pdgId, allow_missing=False)
+        aneutrino_pdgId = ak.to_numpy(aneutrino_pdgId, allow_missing=False)
+
+        scalars = {"met": met,
+                   "btagging_scores": btag,
+                   "gen_neutrinos": gennu,
+                   "gen_bottoms": genbot,
+                   "leptons_pdgId": leptons_pdgId,
+                   "antileptons_pdgId": antileptons_pdgId,
+                   "neutrinos_pdgId": neutrino_pdgId,
+                   "antineutrinos_pdgId": aneutrino_pdgId,
+                   }
         logger.info(f"Fourvectors shape: {fourvectors.shape}")
         logger.info(f"Target shape: {target.shape}")
         
@@ -220,8 +254,10 @@ def process_hdf5_file(input_path: Path, output_path: Path, verbose: bool = False
         extractor.print_data_info()
     
     scalars, fourvectors, target = extractor.extract_all_data()
+    nevents = fourvectors.shape[0]
     extractor.save_data(scalars, fourvectors, target, output_path)
     logger.info(f"Processing complete for {input_path}")
+    return nevents
 
 def main():
     parser = argparse.ArgumentParser(description="Extract training arrays from HDF5 files")
@@ -234,18 +270,24 @@ def main():
     parser.add_argument("--verbose", action="store_true", help="Print detailed data info")
     
     args = parser.parse_args()
-    # _SUFFIX = ""
-    _SUFFIX = "toy_ellbnu_slimmed"
+    _SUFFIX = ""
+    # _SUFFIX = "_genv_pt_leq_44p125"
     # Initialize extractor and process data
     if not args.input.exists():
         sys.exit(f"Input path {args.input} does not exist.")
     if args.input.is_dir():
-        for hdf5_file in args.input.glob("**/*.hdf5"):
+        total_events = 0
+        for hdf5_file in args.input.glob("**/" + ("[0-9a-f]" * 16) + ".hdf5"):
+            if "eq" in hdf5_file.stem:
+                continue
             relative_path = hdf5_file.relative_to(args.input)
             output_file = args.output / relative_path.with_stem(f"{relative_path.stem}{_SUFFIX}").with_suffix(".npz")
-            process_hdf5_file(hdf5_file, output_file, verbose=args.verbose)
+            nevents = process_hdf5_file(hdf5_file, output_file, verbose=args.verbose)
+            total_events += nevents
+        logger.info(f"Total events processed: {total_events}")
     else:
         process_hdf5_file(args.input, args.output, verbose=args.verbose)
+    
 
 if __name__ == "__main__":
     main()
